@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles("junit")
+@ActiveProfiles(profiles = {"junit"})
 @SpringBootTest
-class BearrecipesApplicationTests {
+class BearRecipesApplicationTests {
 
 	@Test
 	void contextLoads() {

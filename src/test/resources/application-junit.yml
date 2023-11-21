@@ -1,7 +1,13 @@
 spring:
-  profiles:
-    active: junit
+  config:
+    activate:
+      on-profile: junit
 
 logging:
   level:
     com.service.bearrecipes: debug
+    org.springframework.web.HttpLogging: debug
+    org.springframework.web.client.RestTemplate: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: debug
+    org.springframework.orm.jpa.JpaTransactionManager: debug
