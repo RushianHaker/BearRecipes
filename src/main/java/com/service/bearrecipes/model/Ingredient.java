@@ -39,4 +39,10 @@ public class Ingredient {
         this.price = price;
         this.receipt = receipt;
     }
+
+    public Ingredient(String ingredientName, BigDecimal weight, BigDecimal price) {
+        this.ingredientName = ingredientName;
+        this.weight = weight;
+        this.price = price;
+    }
 }
