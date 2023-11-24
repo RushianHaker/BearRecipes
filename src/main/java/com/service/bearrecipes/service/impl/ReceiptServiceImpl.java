@@ -8,9 +8,9 @@ import com.service.bearrecipes.exception.ReceiptServiceException;
 import com.service.bearrecipes.model.Author;
 import com.service.bearrecipes.model.Ingredient;
 import com.service.bearrecipes.model.Receipt;
+import com.service.bearrecipes.model.StepInfo;
 import com.service.bearrecipes.service.ReceiptService;
 import jakarta.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,8 +43,13 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .filter(ingredient -> ingredient.getIngredientName() != null && !ingredient.getIngredientName().isEmpty())
                 .toList();
 
-        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getPlaintText(),
-                receiptInfo.getComplexity(), receiptInfo.getAuthor(), receiptInfo.getCountry(), ingredients);
+        List<StepInfo> steps = receiptInfo.getSteps() == null ? new ArrayList<>() : receiptInfo.getSteps().stream()
+                .filter(step -> step.getStep() != null && !step.getStep().isEmpty())
+                .toList();
+
+        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getTitleImage(), receiptInfo.getPlaintText(),
+                receiptInfo.getComplexity(), receiptInfo.getAuthor(), receiptInfo.getCountry(),
+                ingredients, steps);
     }
 
     @Override
@@ -69,7 +74,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         var receiptCountryFromDB = countryRepository.findByName(receiptCountry.getName())
                 .orElseThrow(() -> new ReceiptServiceException("Cant find receipt country: " + receiptCountry.getName()));
 
-        var receiptForSave = new Receipt(receiptName, receiptPlaintText, receiptComplexity,
+        var receiptForSave = new Receipt(receiptName, receiptDTO.getTitleImage(), receiptPlaintText, receiptComplexity,
                 findAuthorOrSaveAndReturn(receiptDTO.getAuthor()), receiptCountryFromDB);
 
         var receiptId = receiptDTO.getId();
