@@ -3,6 +3,7 @@ package com.service.bearrecipes.service.impl;
 import com.service.bearrecipes.dao.UserRepository;
 import com.service.bearrecipes.model.User;
 import com.service.bearrecipes.service.UserService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class UserServiceImpl implements UserService {
                 .password(user.getPassword())
                 .roles(user.getRole())
                 .build();
+    }
+
+    @Override
+    public void saveUser(@NotNull User user) {
+        userRepository.save(user);
     }
 }
