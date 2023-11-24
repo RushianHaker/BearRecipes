@@ -21,19 +21,19 @@ public class DbTestcontainersConfig extends AbstractTestcontainersConfig {
 
     static {
         try {
-            DbInfo kndDb = initPostgresDb(Network.newNetwork());
-            postgresContainer = kndDb.getContainer();
-            properties = kndDb.getProperties();
+            DbInfo bearrecipesDb = initPostgresDb(Network.newNetwork());
+            postgresContainer = bearrecipesDb.getContainer();
+            properties = bearrecipesDb.getProperties();
         } catch (Exception e) {
             throw new RuntimeException("Error in process of creation Testcontainers config", e);
         }
     }
 
     @SuppressWarnings("ConfigurationProperties")
-    @Bean("postgresDataSourceProperties")
+    @Bean("bearrecipesDataSourceProperties")
     @Primary
-    @ConfigurationProperties("spring.datasource.postgres")
-    public DataSourceProperties postgresDataSourceProperties() {
+    @ConfigurationProperties("spring.datasource.bearrecipes")
+    public DataSourceProperties bearrecipesDataSourceProperties() {
         return properties;
     }
 }

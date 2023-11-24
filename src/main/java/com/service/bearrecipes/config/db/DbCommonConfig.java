@@ -23,21 +23,21 @@ public class DbCommonConfig {
         this.env = env;
     }
 
-    @Bean("postgresDataSource")
+    @Bean("bearrecipesDataSource")
     @Primary
-    public DataSource postgresDataSource(@Qualifier("postgresDataSourceProperties") DataSourceProperties properties) {
+    public DataSource bearrecipesDataSource(@Qualifier("bearrecipesDataSourceProperties") DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
 
     @Bean
-    public SpringLiquibase postgresLiquibase(@Qualifier("postgresDataSource") DataSource dataSource,
-                                        @Qualifier("postgresLiquibaseProperties") LiquibaseProperties properties) {
+    public SpringLiquibase bearrecipesLiquibase(@Qualifier("bearrecipesDataSource") DataSource dataSource,
+                                        @Qualifier("bearrecipesLiquibaseProperties") LiquibaseProperties properties) {
         return liquibaseConfigForProperties(dataSource, properties);
     }
 
-    @Bean("postgresLiquibaseProperties")
-    @ConfigurationProperties(prefix = "spring.liquibase.postgres")
-    public LiquibaseProperties postgresLiquibaseProperties() {
+    @Bean("bearrecipesLiquibaseProperties")
+    @ConfigurationProperties(prefix = "spring.liquibase.bearrecipes")
+    public LiquibaseProperties bearrecipesLiquibaseProperties() {
         LiquibaseProperties properties = new LiquibaseProperties();
         /* Это основная база, развернём в неё данные тестов в рамках работ под соответствующим профилем спринга */
         properties.setContexts(env.acceptsProfiles(Profiles.of("junit")) ? "junit" : "real-db");

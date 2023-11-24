@@ -6,17 +6,18 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    active: dev
   datasource:
-    postgres:
-      url: jdbc:postgresql://localhost:5432/postgres
+    bearrecipes:
+      url: jdbc:postgresql://localhost:5432/bearrecipes
       driverClassName: org.postgresql.Driver
       username: postgres
       password: postgres
 
   liquibase:
-    postgres:
-      enabled: true
-      change-log: classpath:db/liquibase-changelog.xml
+    bearrecipes:
+      change-log: db/liquibase-changelog.xml
       liquibase-schema: public
 
   jpa:

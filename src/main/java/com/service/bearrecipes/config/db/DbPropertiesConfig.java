@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Profile;
 @Profile("!junit")
 public class DbPropertiesConfig {
 
-    @Bean("postgresDataSourceProperties")
+    @Bean("bearrecipesDataSourceProperties")
     @Primary
-    @ConfigurationProperties("spring.datasource.postgres")
-    public DataSourceProperties postgresDataSourceProperties() {
+    @ConfigurationProperties("spring.datasource.bearrecipes")
+    public DataSourceProperties bearrecipesDataSourceProperties() {
         return new DataSourceProperties();
     }
 }

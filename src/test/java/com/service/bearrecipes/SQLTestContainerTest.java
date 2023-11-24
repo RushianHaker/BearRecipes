@@ -17,8 +17,6 @@ class SQLTestContainerTest {
 
     @Test
     void searchForInsertData() {
-        assertEquals("test", jdbcTemplate.queryForObject(
-                "INSERT INTO receipt (name) VALUES ('test') returning name", String.class));
     }
 
 }

@@ -17,7 +17,7 @@ public abstract class AbstractTestcontainersConfig {
 
         //noinspection resource
         PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:13")
-                .withDatabaseName("postgres")
+                .withDatabaseName("bearrecipes")
                 .withUsername("postgres")
                 .withPassword("postgres")
                 .withNetwork(SHARED_NETWORK)

@@ -5,8 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-    <include relativeToChangelogFile="true" file="changelog/user_table_init.xml"/>
-    <include relativeToChangelogFile="true" file="changelog/data/user_init_data.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/user_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/data/user_default_data.xml"/>
 
+    <!--Profile Junit-->
     <include relativeToChangelogFile="true" file="changelog-mock/changelog-test.xml"/>
 </databaseChangeLog>
