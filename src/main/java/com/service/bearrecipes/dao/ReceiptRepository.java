@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     @EntityGraph(attributePaths = {"author", "country"})
-    Optional<Receipt> findById(long bookId);
+    Optional<Receipt> findById(long receiptId);
 
     @EntityGraph(attributePaths = {"author", "country"})
     List<Receipt> findAll();

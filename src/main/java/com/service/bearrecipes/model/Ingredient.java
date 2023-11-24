@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ingredient")
+@Table(name = "ingredients")
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

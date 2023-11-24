@@ -27,7 +27,7 @@ public class Receipt {
     @Column(name = "id", unique = true)
     private long id;
 
-    @Column(name = "book_name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "title_image", nullable = false)

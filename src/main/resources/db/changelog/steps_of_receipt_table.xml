@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="create steps_of_receipt table" author="max">
+       <sql>
+           CREATE TABLE steps_of_receipt
+           (
+               id         bigserial    NOT NULL,
+               step       varchar(255) NOT NULL,
+               receipt_id int8 NULL,
+               step_image bytea        NOT NULL,
+               CONSTRAINT steps_of_receipt_pkey PRIMARY KEY (id),
+               CONSTRAINT fk_step_of_receipt FOREIGN KEY (receipt_id) REFERENCES receipts (id)
+           );
+       </sql>
+    </changeSet>
+</databaseChangeLog>
