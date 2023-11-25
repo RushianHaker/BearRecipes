@@ -29,10 +29,8 @@ public class DbTestcontainersConfig extends AbstractTestcontainersConfig {
         }
     }
 
-    @SuppressWarnings("ConfigurationProperties")
     @Bean("bearrecipesDataSourceProperties")
     @Primary
-    @ConfigurationProperties("spring.datasource.bearrecipes")
     public DataSourceProperties bearrecipesDataSourceProperties() {
         return properties;
     }
