@@ -2,7 +2,6 @@ package com.service.bearrecipes.config.db;
 
 import jakarta.validation.constraints.NotNull;
 import liquibase.integration.spring.SpringLiquibase;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -29,21 +28,6 @@ public class DbCommonConfig {
         return properties.initializeDataSourceBuilder().build();
     }
 
-    @Bean
-    public SpringLiquibase bearrecipesLiquibase(@Qualifier("bearrecipesDataSource") DataSource dataSource,
-                                        @Qualifier("bearrecipesLiquibaseProperties") LiquibaseProperties properties) {
-        return liquibaseConfigForProperties(dataSource, properties);
-    }
-
-    @Bean("bearrecipesLiquibaseProperties")
-    @ConfigurationProperties(prefix = "spring.liquibase.bearrecipes")
-    public LiquibaseProperties bearrecipesLiquibaseProperties() {
-        LiquibaseProperties properties = new LiquibaseProperties();
-        /* Это основная база, развернём в неё данные тестов в рамках работ под соответствующим профилем спринга */
-        properties.setContexts(env.acceptsProfiles(Profiles.of("junit")) ? "junit" : "real-db");
-        return properties;
-    }
-
     @NotNull
     private static SpringLiquibase liquibaseConfigForProperties(@NotNull DataSource dataSource, @NotNull LiquibaseProperties properties) {
         SpringLiquibase liquibase = new SpringLiquibase();
@@ -58,5 +42,20 @@ public class DbCommonConfig {
         liquibase.setChangeLogParameters(properties.getParameters());
         liquibase.setRollbackFile(properties.getRollbackFile());
         return liquibase;
+    }
+
+    @Bean("bearrecipesLiquibaseProperties")
+    @ConfigurationProperties(prefix = "spring.liquibase.bearrecipes")
+    public LiquibaseProperties bearrecipesLiquibaseProperties() {
+        LiquibaseProperties properties = new LiquibaseProperties();
+        /* Это основная база, развернём в неё данные тестов в рамках работ под соответствующим профилем спринга */
+        properties.setContexts(env.acceptsProfiles(Profiles.of("junit")) ? "junit" : "real-db");
+        return properties;
+    }
+
+    @Bean
+    public SpringLiquibase bearrecipesLiquibase(@Qualifier("bearrecipesDataSource") DataSource dataSource,
+                                                @Qualifier("bearrecipesLiquibaseProperties") LiquibaseProperties properties) {
+        return liquibaseConfigForProperties(dataSource, properties);
     }
 }
