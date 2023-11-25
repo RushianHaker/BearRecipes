@@ -1,0 +1,1 @@
+INSERT INTO countries (country_name) VALUES('MOCK WORLD !');

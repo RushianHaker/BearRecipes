@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet id="insert test data into users table" author="max" context="junit">
-        <sqlFile path="data/user_info.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    <changeSet id="insert mock data into countries table" author="max" context="junit">
+        <sqlFile path="data/country_info.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
     </changeSet>
 </databaseChangeLog>
