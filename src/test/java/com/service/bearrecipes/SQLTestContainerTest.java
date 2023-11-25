@@ -16,7 +16,12 @@ class SQLTestContainerTest {
     protected JdbcTemplate jdbcTemplate;
 
     @Test
-    void searchForInsertData() {
+    void checkUsersDefaultData() {
+        assertEquals(2, jdbcTemplate.queryForObject("select count(id) from users", Integer.class));
     }
 
+    @Test
+    void checkCountriesMockData() {
+        assertEquals("MOCK WORLD !", jdbcTemplate.queryForObject("select country_name from countries where country_name = 'MOCK WORLD !'", String.class));
+    }
 }
