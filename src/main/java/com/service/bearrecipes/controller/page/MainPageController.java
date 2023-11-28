@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
-public class MenuPageController {
+public class MainPageController {
   @GetMapping({ "/" })
   public String getMenuPage() {
-    return "menu";
+    return "main";
   }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>BearRecipes</title>
+    <style type="text/css">
+        .titleMainPage {
+            padding: 150px;
+            position: relative;
+            margin-top: auto;
+            background-image: url("/static/mainBG.svg");
+        }
+
+        .content {
+            padding: 30px;
+            background-image: url("/static/detailsBG.svg");
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <div class="titleMainPage">
+        <h1 class="helloText"> Добро пожаловать на Bear Recipes ! </h1>
+        <img src="/static/foodIcon.svg">
+    </div>
+    <div class="content">
+        <h3> See recipes -> <a th:href="@{receipt}" href="receiptlist.html">Enter</a></h3>
+    </div>
+</div>
+</body>
+</html>
