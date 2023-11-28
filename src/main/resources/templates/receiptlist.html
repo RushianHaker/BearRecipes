@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список рецептов</title>
+    <style type="text/css">
+        .titleMainPage {
+            padding: 150px;
+            position: relative;
+            margin-top: auto;
+            background-image: url("/static/mainBG.svg");
+        }
+
+        .content, .content td {
+            border: 1px solid #000000;
+            padding: 30px;
+            background-image: url("/static/detailsBG.svg");
+        }
+    </style>
+</head>
+
+<body>
+<div class="titleMainPage">
+    <h1>Рецепты:</h1>
+
+    <button>
+        <thead>
+        <a th:href="@{/logout}">Logout</a>
+        </thead>
+    </button>
+
+<!--  todo показывается только для админа  -->
+    <button>
+        <thead>
+        <a th:href="@{/receipt/addreceipt}" href="addreceipt.html">Add</a>
+        </thead>
+    </button>
+<!---->
+
+    <table class="content">
+        <thead>
+        <tr>
+            <!--  todo показывается только для админа  -->
+            <th>ID</th>
+            <!---->
+            <th>Название</th>
+            <th>страна</th>
+            <th>картинка</th>
+        </tr>
+        </thead>
+
+        <tbody id="receiptTable"/>
+    </table>
+
+</div>
+
+<script>
+    console.log("exec api/receipt ")
+
+    const params = {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        method: 'GET'
+    }
+
+    fetch("/api/receipt", params)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(receipt => {
+                receiptTable.innerHTML +=
+                    "<tr>" +
+                    "<td>" + receipt.id + "</td>" +
+                    "<td>" + receipt.name + "</td>" +
+                    "<td>" + receipt.country.name + "</td>" +
+                    "<td>" + receipt.titleImage + "</td>" +
+                    "<td> <a href=\"/receipt/inforeceipt/" + receipt.id + "\"> <button type=\"button\">Info</button> </td>" +
+                    "<td> <a href=\"/ingredient/addingredient/" + receipt.id + "\"> <button type=\"button\">Add Ingredient</button> </td>" +
+                    "<td> <a href=\"/stepinfo/addstep/" + receipt.id + "\"> <button type=\"button\">Add Step Info</button> </td>" +
+                    "<td> <a href=\"/receipt/editreceipt/" + receipt.id + "\"> <button type=\"button\">Edit</button> </td>" +
+                    "<td> <a href=\"/receipt/delreceipt/" + receipt.id + "\"> <button type=\"button\">Delete</button> </td>" +
+                    "</tr>";
+            })
+        });
+</script>
+</body>
+</html>
