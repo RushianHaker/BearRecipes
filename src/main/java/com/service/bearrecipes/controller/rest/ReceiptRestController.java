@@ -1,6 +1,7 @@
 package com.service.bearrecipes.controller.rest;
 
 import com.service.bearrecipes.dto.ReceiptDTO;
+import com.service.bearrecipes.model.Receipt;
 import com.service.bearrecipes.service.ReceiptService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +27,14 @@ public class ReceiptRestController {
     }
 
     @PostMapping("/api/receipt")
-    public void addReceipt(@RequestBody @NotNull ReceiptDTO receiptDTO) {
-        receiptService.saveOrUpdate(receiptDTO);
+    public Receipt addReceipt(@RequestBody @NotNull ReceiptDTO receiptDTO) {
+        return receiptService.saveOrUpdate(receiptDTO);
     }
 
     @PutMapping({"/api/receipt/{id}"})
-    public void editReceipt(@PathVariable long id, @RequestBody @NotNull ReceiptDTO receiptDTO) {
+    public Receipt editReceipt(@PathVariable long id, @RequestBody @NotNull ReceiptDTO receiptDTO) {
         receiptDTO.setId(id);
-        receiptService.saveOrUpdate(receiptDTO);
+        return receiptService.saveOrUpdate(receiptDTO);
     }
 
     @DeleteMapping({"/api/receipt/{id}"})

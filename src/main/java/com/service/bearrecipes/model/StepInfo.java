@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -29,4 +28,10 @@ public class StepInfo {
     @ManyToOne(targetEntity = Receipt.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "receipt_id")
     private Receipt receipt;
+
+    public StepInfo(String step, byte[] image, Receipt receipt) {
+        this.step = step;
+        this.image = image;
+        this.receipt = receipt;
+    }
 }

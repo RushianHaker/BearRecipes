@@ -1,6 +1,7 @@
 package com.service.bearrecipes.dto;
 
 
+import com.service.bearrecipes.model.Ingredient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,10 @@ public class IngredientDTO {
         this.weight = weight;
         this.price = price;
         this.receiptDTO = receiptDTO;
+    }
+
+    public static IngredientDTO toDto(Ingredient ingredient) {
+        return new IngredientDTO(ingredient.getId(), ingredient.getIngredientName(),
+                ingredient.getWeight(), ingredient.getPrice(), ReceiptDTO.toDto(ingredient.getReceipt()));
     }
 }
