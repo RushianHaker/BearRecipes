@@ -54,6 +54,24 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional(readOnly = true)
+    public ReceiptDTO findByName(@NotNull String receiptName) {
+        var receiptInfo = receiptRepository.findByName(receiptName).orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
+
+        List<Ingredient> ingredients = receiptInfo.getIngredients() == null ? new ArrayList<>() : receiptInfo.getIngredients().stream()
+                .filter(ingredient -> ingredient.getIngredientName() != null && !ingredient.getIngredientName().isEmpty())
+                .toList();
+
+        List<StepInfo> steps = receiptInfo.getSteps() == null ? new ArrayList<>() : receiptInfo.getSteps().stream()
+                .filter(step -> step.getStep() != null && !step.getStep().isEmpty())
+                .toList();
+
+        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getTitleImage(), receiptInfo.getPlaintText(),
+                receiptInfo.getComplexity(), receiptInfo.getAuthor(), receiptInfo.getCountry(),
+                ingredients, steps);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<ReceiptDTO> findAll() {
         return receiptRepository.findAll().stream().map(ReceiptDTO::toDto).collect(Collectors.toList());
     }

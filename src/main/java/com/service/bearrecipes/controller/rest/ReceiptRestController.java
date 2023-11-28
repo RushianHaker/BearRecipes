@@ -22,8 +22,13 @@ public class ReceiptRestController {
     }
 
     @GetMapping({"/api/receipt/{id}"})
-    public ReceiptDTO infoPageReceipt(@PathVariable long id) {
+    public ReceiptDTO infoPageReceipt(@PathVariable("id") long id) {
         return receiptService.findById(id);
+    }
+
+    @GetMapping({"/api/receipt/{name}"})
+    public ReceiptDTO infoPageReceiptByName(@PathVariable("name") @NotNull String name) {
+        return receiptService.findByName(name);
     }
 
     @PostMapping("/api/receipt")
@@ -32,7 +37,7 @@ public class ReceiptRestController {
     }
 
     @PutMapping({"/api/receipt/{id}"})
-    public Receipt editReceipt(@PathVariable long id, @RequestBody @NotNull ReceiptDTO receiptDTO) {
+    public Receipt editReceipt(@PathVariable("id") long id, @RequestBody @NotNull ReceiptDTO receiptDTO) {
         receiptDTO.setId(id);
         return receiptService.saveOrUpdate(receiptDTO);
     }

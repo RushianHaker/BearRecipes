@@ -11,6 +11,8 @@ public interface ReceiptService {
 
     ReceiptDTO findById(long receiptId);
 
+    ReceiptDTO findByName(@NotNull String receiptIName);
+
     List<ReceiptDTO> findAll();
 
     void delete(long receiptId);
