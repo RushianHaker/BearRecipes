@@ -1,1 +1,2 @@
-INSERT INTO countries (country_name) VALUES('MOCK WORLD !');
+INSERT INTO countries (id, country_name)
+VALUES (9999, 'Test Country');

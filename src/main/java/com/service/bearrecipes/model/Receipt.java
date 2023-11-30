@@ -91,6 +91,10 @@ public class Receipt {
         this.country = country;
     }
 
+    public Receipt(long id) {
+        this.id = id;
+    }
+
     public Receipt() {
 
     }
