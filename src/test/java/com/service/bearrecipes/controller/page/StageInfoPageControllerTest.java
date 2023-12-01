@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("junit")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {SecurityConfiguration.class, DbTestcontainersConfig.class})
+@Import(SecurityConfiguration.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {DbTestcontainersConfig.class})
 public class StageInfoPageControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
@@ -44,7 +46,7 @@ public class StageInfoPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getAddReceiptPagetTest() {
+    public void getAddReceiptPageTest() {
         Mockito.when(receiptService.findById(1L)).thenReturn(getReceiptDTOsForTest());
 
         URI uri = UriComponentsBuilder
