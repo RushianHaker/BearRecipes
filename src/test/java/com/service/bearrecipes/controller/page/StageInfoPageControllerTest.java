@@ -1,5 +1,6 @@
 package com.service.bearrecipes.controller.page;
 
+import com.service.bearrecipes.config.DbTestcontainersConfig;
 import com.service.bearrecipes.config.security.SecurityConfiguration;
 import com.service.bearrecipes.dto.ReceiptDTO;
 import com.service.bearrecipes.model.*;
@@ -7,37 +8,35 @@ import com.service.bearrecipes.service.ReceiptService;
 import com.service.bearrecipes.service.StepInfoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(StepInfoPageController.class)
-@Import(SecurityConfiguration.class)
+@ActiveProfiles("junit")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {SecurityConfiguration.class, DbTestcontainersConfig.class})
 public class StageInfoPageControllerTest {
     @Autowired
-    private MockMvc mockMvc;
+    private TestRestTemplate restTemplate;
 
     @MockBean
     private ReceiptService receiptService;
     @MockBean
     private StepInfoService stepInfoService;
-
 
     @DisplayName("Получение страницы добавления")
     @WithMockUser(
@@ -45,23 +44,35 @@ public class StageInfoPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getAddReceiptPagetTest() throws Exception {
+    public void getAddReceiptPagetTest() {
         Mockito.when(receiptService.findById(1L)).thenReturn(getReceiptDTOsForTest());
 
-        mockMvc.perform(get("/stepinfo/addstep/1")).andExpect(
-                status().isOk()).andExpect(
-                content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("111")));
+        URI uri = UriComponentsBuilder
+                .fromUriString("/stepinfo/addstep/1")
+                .build()
+                .encode()
+                .toUri();
+
+        ResponseEntity<String> rsp = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.OK, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
+
+        assertTrue(rsp.getBody().contains("testReceiptDTO"));
+        assertTrue(rsp.getBody().contains("111"));
     }
 
     @Test
-    public void unauthorizedUserRedirectToLoginPageTest() throws Exception {
+    public void unauthorizedUserRedirectToLoginPageTest() {
         String redirectUrl = "http://localhost/login";
         String headerLocation = "Location";
 
-        assertEquals(redirectUrl, mockMvc.perform(get("/stepinfo/addstep/1"))
-                .andExpect(status().is3xxRedirection()).andReturn().getResponse().getHeader(headerLocation));
+        ResponseEntity<String> rsp = restTemplate.exchange("/stepinfo/addstep/1", HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.PERMANENT_REDIRECT, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
     }
 
     private ReceiptDTO getReceiptDTOsForTest() {

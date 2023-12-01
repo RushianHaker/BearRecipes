@@ -1,23 +1,21 @@
 package com.service.bearrecipes.dao.impl;
 
+import com.service.bearrecipes.config.DbTestcontainersConfig;
 import com.service.bearrecipes.dao.StepInfoRepository;
-import com.service.bearrecipes.model.StepInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@DataJpaTest
+@ActiveProfiles("junit")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = {DbTestcontainersConfig.class})
 class StepInfoRepositoryTest {
     @Autowired
     private StepInfoRepository stepInfoRepository;
-
-    @Autowired
-    private TestEntityManager em;
 
     @Test
     void findById() {
@@ -33,13 +31,13 @@ class StepInfoRepositoryTest {
     @Test
     @Rollback
     void deleteById() {
-        var stepInfo = em.find(StepInfo.class, 1);
+        var stepInfo = stepInfoRepository.findById(1L).orElseThrow();
 
         assertEquals(1, stepInfo.getId());
         assertEquals("Test Step", stepInfo.getStep());
 
         stepInfoRepository.deleteById(1L);
 
-        assertNull(em.find(StepInfo.class, 1));
+        assertFalse(stepInfoRepository.findById(1L).isPresent());
     }
 }

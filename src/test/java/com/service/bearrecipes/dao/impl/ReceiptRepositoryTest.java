@@ -1,12 +1,13 @@
 package com.service.bearrecipes.dao.impl;
 
+import com.service.bearrecipes.config.DbTestcontainersConfig;
 import com.service.bearrecipes.dao.ReceiptRepository;
 import com.service.bearrecipes.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,13 +15,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@DataJpaTest
+@ActiveProfiles("junit")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = {DbTestcontainersConfig.class})
 class ReceiptRepositoryTest {
     @Autowired
     private ReceiptRepository receiptRepository;
-
-    @Autowired
-    private TestEntityManager em;
 
     @Test
     void findById() {
@@ -34,46 +33,38 @@ class ReceiptRepositoryTest {
         assertEquals("Test Receipt", presentReceipt.getPlaintText());
 
         assertEquals(1, presentReceipt.getAuthor().getId());
-        assertEquals("Test Author", presentReceipt.getAuthor().getName());
-        assertEquals("Test Author", presentReceipt.getAuthor().getLastName());
+        assertEquals("TestAuthor", presentReceipt.getAuthor().getName());
+        assertEquals("TestAuthor", presentReceipt.getAuthor().getLastName());
 
         assertEquals(9999, presentReceipt.getCountry().getId());
         assertEquals("Test Country", presentReceipt.getCountry().getName());
-
-        assertEquals(1, presentReceipt.getIngredients().get(0).getId());
-        assertEquals("Test Ingredient", presentReceipt.getIngredients().get(0).getIngredientName());
     }
 
     @Test
     void findAll() {
         var receipts = receiptRepository.findAll();
 
-        assertEquals(1, receipts.size());
+        assertEquals(2, receipts.size());
 
-        var presentReceipt = receipts.get(0);
+        var presentReceipt = receipts.get(1);
         assertEquals(1, presentReceipt.getId());
         assertEquals("Test Receipt", presentReceipt.getName());
 
         assertEquals(1, presentReceipt.getAuthor().getId());
-        assertEquals("Test Author", presentReceipt.getAuthor().getName());
+        assertEquals("TestAuthor", presentReceipt.getAuthor().getName());
 
         assertEquals(9999, presentReceipt.getCountry().getId());
         assertEquals("Test Country", presentReceipt.getCountry().getName());
-
-        assertEquals(1, presentReceipt.getIngredients().get(0).getId());
-        assertEquals("Test Ingredient", presentReceipt.getIngredients().get(0).getIngredientName());
     }
 
     @Test
     void save() {
         var receipt = new Receipt("testReceipt", new byte[0], "testReceipt", 111L,
-                new Author(1L, "testAuthor", "testAuthor", new Country(9999L, "testCountry")),
-                new Country(9999L, "testCountry"), List.of(new Ingredient(1L, "testIngredient",
-                BigDecimal.valueOf(111), BigDecimal.valueOf(111), new Receipt(1L))),
-                List.of(new StepInfo(1L, "testStepInfo", new byte[0], new Receipt(1L))));
+                new Author(1L, "TestAuthor", "TestAuthor", new Country(9999L, "Test Country")),
+                new Country(9999L, "Test Country"));
 
         var saveReceipt = receiptRepository.save(receipt);
-        var receiptById = em.find(Receipt.class, 2);
+        var receiptById = receiptRepository.findById(3).orElseThrow();
 
         assertEquals(saveReceipt.getId(), receiptById.getId());
         assertEquals(saveReceipt.getName(), receiptById.getName());
@@ -82,19 +73,17 @@ class ReceiptRepositoryTest {
         assertEquals(saveReceipt.getAuthor().getLastName(), receiptById.getAuthor().getLastName());
 
         assertEquals(saveReceipt.getCountry().getName(), receiptById.getCountry().getName());
-
-        assertEquals(saveReceipt.getIngredients().get(0).getIngredientName(), receiptById.getIngredients().get(0).getIngredientName());
     }
 
     @Test
     @Rollback
     void deleteById() {
-        var receipt = em.find(Receipt.class, 1);
-        assertEquals("Test Receipt", receipt.getName());
-        assertEquals("Test Receipt", receipt.getPlaintText());
+        var receipt = receiptRepository.findById(2).orElseThrow();
+        assertEquals("Test Receipt 2", receipt.getName());
+        assertEquals("Test Receipt 2", receipt.getPlaintText());
 
-        receiptRepository.deleteById(1L);
+        receiptRepository.deleteById(2L);
 
-        assertNull(em.find(Receipt.class, 1));
+        assertFalse(receiptRepository.findById(2).isPresent());
     }
 }

@@ -1,5 +1,6 @@
 package com.service.bearrecipes.service.impl;
 
+import com.service.bearrecipes.config.DbTestcontainersConfig;
 import com.service.bearrecipes.dao.AuthorRepository;
 import com.service.bearrecipes.dao.CountryRepository;
 import com.service.bearrecipes.dao.ReceiptRepository;
@@ -11,14 +12,17 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = {ReceiptServiceImpl.class})
+@ActiveProfiles("junit")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = {DbTestcontainersConfig.class, ReceiptServiceImpl.class})
 class ReceiptServiceImplTest {
     @MockBean
     private ReceiptRepository receiptRepository;
@@ -32,11 +36,14 @@ class ReceiptServiceImplTest {
 
     @Test
     void save() {
+        var country = new Country(2L, "Test Country");
+        when(countryRepository.findByName(country.getName())).thenReturn(Optional.of(country));
+
         var receiptDTO = new ReceiptDTO("testReceipt", new byte[0], "testReceipt", 111L,
-                new Author(2L, "testAuthor", "testAuthor", new Country(2L, "testCountry")),
-                new Country(2L, "testCountry"), List.of(new Ingredient(2L, "testIngredient",
-                BigDecimal.valueOf(111), BigDecimal.valueOf(111), new Receipt(2L))),
-                List.of(new StepInfo(2L, "testStepInfo", new byte[0], new Receipt(2L))));
+                new Author(2L, "testAuthor", "testAuthor", country),
+                country, List.of(new Ingredient(2L, "testIngredient", BigDecimal.valueOf(111),
+                BigDecimal.valueOf(111), new Receipt(2L))), List.of(new StepInfo(2L,
+                "testStepInfo", new byte[0], new Receipt(2L))));
 
         when(receiptRepository.save(receiptDTO.toDomainObject())).thenReturn(receiptDTO.toDomainObject());
 

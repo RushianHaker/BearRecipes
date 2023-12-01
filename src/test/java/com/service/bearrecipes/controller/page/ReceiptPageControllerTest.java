@@ -1,5 +1,6 @@
 package com.service.bearrecipes.controller.page;
 
+import com.service.bearrecipes.config.DbTestcontainersConfig;
 import com.service.bearrecipes.config.security.SecurityConfiguration;
 import com.service.bearrecipes.dto.ReceiptDTO;
 import com.service.bearrecipes.model.*;
@@ -8,31 +9,32 @@ import com.service.bearrecipes.service.CountryService;
 import com.service.bearrecipes.service.ReceiptService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(ReceiptPageController.class)
-@Import(SecurityConfiguration.class)
+@ActiveProfiles("junit")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {SecurityConfiguration.class, DbTestcontainersConfig.class})
 public class ReceiptPageControllerTest {
     @Autowired
-    private MockMvc mockMvc;
+    private TestRestTemplate restTemplate;
 
     @MockBean
     private ReceiptService receiptService;
@@ -50,12 +52,23 @@ public class ReceiptPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getAllReceiptListPageTest() throws Exception {
+    public void getAllReceiptListPageTest() {
         Mockito.when(receiptService.findAll()).thenReturn(getReceiptForTest());
 
-        mockMvc.perform(get("/receipt")).andExpect(status().isOk()).andExpect(
-                content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("<td> <a href=\\\"/receipt/inforeceipt/\" + receipt.id + \"\\\"> <button type=\\\"button\\\">Info</button> </td>")));
+        URI uri = UriComponentsBuilder
+                .fromUriString("/receipt")
+                .build()
+                .encode()
+                .toUri();
+
+        ResponseEntity<String> rsp = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.OK, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
+
+        assertTrue(rsp.getBody().contains("<td> <a href=\\\"/receipt/inforeceipt/\" + receipt.id + \"\\\">"));
+        assertTrue(rsp.getBody().contains("<button type=\\\"button\\\">Info</button> </td>"));
     }
 
     @DisplayName("Получение страницы добавления")
@@ -64,11 +77,20 @@ public class ReceiptPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getAddReceiptPageTest() throws Exception {
-        mockMvc.perform(get("/receipt/addreceipt")).andExpect(
-                status().isOk()).andExpect(
-                content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("<input id=\"country-input\" name=\"country-input\" type=\"text\"/>")));
+    public void getAddReceiptPageTest() {
+        URI uri = UriComponentsBuilder
+                .fromUriString("/receipt/addreceipt")
+                .build()
+                .encode()
+                .toUri();
+
+        ResponseEntity<String> rsp = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.OK, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
+
+        assertTrue(rsp.getBody().contains("<input id=\"country-input\" name=\"country-input\" type=\"text\"/>"));
     }
 
     @DisplayName("Получение страницы редактирования")
@@ -77,15 +99,24 @@ public class ReceiptPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getEditReceiptPageTest() throws Exception {
+    public void getEditReceiptPageTest() {
         Mockito.when(receiptService.findById(TEST_RECEIPT_ID)).thenReturn(getReceiptDTOsForTest());
 
-        mockMvc.perform(get("/receipt/editreceipt/1")).andExpect(
-                status().isOk()).andExpect(
-                content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("testAuthorReceiptDTO"))).andExpect(
-                content().string(containsString("dinnerReceiptDTO")));
+        URI uri = UriComponentsBuilder
+                .fromUriString("/receipt/editreceipt/1")
+                .build()
+                .encode()
+                .toUri();
+
+        ResponseEntity<String> rsp = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.OK, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
+
+        assertTrue(rsp.getBody().contains("testReceiptDTO"));
+        assertTrue(rsp.getBody().contains("testAuthorReceiptDTO"));
+        assertTrue(rsp.getBody().contains("dinnerReceiptDTO"));
     }
 
     @DisplayName("Получение страницы полной информации по рецепту")
@@ -94,14 +125,23 @@ public class ReceiptPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getInfoReceiptPageTest() throws Exception {
+    public void getInfoReceiptPageTest() {
         Mockito.when(receiptService.findById(TEST_RECEIPT_ID)).thenReturn(getReceiptDTOsForTest());
 
-        mockMvc.perform(get("/receipt/inforeceipt/1")).andExpect(
-                status().isOk()).andExpect(
-                content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("testAuthorReceiptDTO")));
+        URI uri = UriComponentsBuilder
+                .fromUriString("/receipt/inforeceipt/1")
+                .build()
+                .encode()
+                .toUri();
+
+        ResponseEntity<String> rsp = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.OK, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
+
+        assertTrue(rsp.getBody().contains("testReceiptDTO"));
+        assertTrue(rsp.getBody().contains("testAuthorReceiptDTO"));
     }
 
     @DisplayName("Получение страницы удаления рецептов")
@@ -110,31 +150,49 @@ public class ReceiptPageControllerTest {
             authorities = {"ROLE_ADMIN"}
     )
     @Test
-    public void getDeleteReceiptPageTest() throws Exception {
+    public void getDeleteReceiptPageTest() {
         Mockito.when(receiptService.findById(TEST_RECEIPT_ID)).thenReturn(getReceiptDTOsForTest());
 
-        mockMvc.perform(get("/receipt/delreceipt/1")).andExpect(
-                status().isOk()).andExpect(
-                content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("testAuthorReceiptDTO")));
+        URI uri = UriComponentsBuilder
+                .fromUriString("/receipt/delreceipt/1")
+                .build()
+                .encode()
+                .toUri();
+
+        ResponseEntity<String> rsp = restTemplate.exchange(uri, HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+
+        assertEquals(HttpStatus.OK, rsp.getStatusCode());
+        assertNotNull(rsp.getBody());
+
+        assertTrue(rsp.getBody().contains("testReceiptDTO"));
+        assertTrue(rsp.getBody().contains("testAuthorReceiptDTO"));
     }
 
     @Test
-    public void unauthorizedUserRedirectToLoginPageTest() throws Exception {
+    public void unauthorizedUserRedirectToLoginPageTest() {
         String redirectUrl = "http://localhost/login";
         String headerLocation = "Location";
 
-        assertEquals(redirectUrl, mockMvc.perform(get("/receipt"))
-                .andExpect(status().is3xxRedirection()).andReturn().getResponse().getHeader(headerLocation));
-        assertEquals(redirectUrl, mockMvc.perform(get("/receipt/addreceipt"))
-                .andExpect(status().is3xxRedirection()).andReturn().getResponse().getHeader(headerLocation));
-        assertEquals(redirectUrl, mockMvc.perform(get("/receipt/editreceipt/1"))
-                .andExpect(status().is3xxRedirection()).andReturn().getResponse().getHeader(headerLocation));
-        assertEquals(redirectUrl, mockMvc.perform(get("/receipt/inforeceipt/1"))
-                .andExpect(status().is3xxRedirection()).andReturn().getResponse().getHeader(headerLocation));
-        assertEquals(redirectUrl, mockMvc.perform(get("/receipt/delreceipt/1"))
-                .andExpect(status().is3xxRedirection()).andReturn().getResponse().getHeader(headerLocation));
+        ResponseEntity<String> rsp = restTemplate.exchange("/receipt", HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+        assertEquals(HttpStatus.PERMANENT_REDIRECT, rsp.getStatusCode());
+
+        rsp = restTemplate.exchange("/receipt/addreceipt", HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+        assertEquals(HttpStatus.PERMANENT_REDIRECT, rsp.getStatusCode());
+
+        rsp = restTemplate.exchange("/receipt/editreceipt/1", HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+        assertEquals(HttpStatus.PERMANENT_REDIRECT, rsp.getStatusCode());
+
+        rsp = restTemplate.exchange("/receipt/inforeceipt/1", HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+        assertEquals(HttpStatus.PERMANENT_REDIRECT, rsp.getStatusCode());
+
+        rsp = restTemplate.exchange("/receipt/delreceipt/1", HttpMethod.GET,
+                new HttpEntity<>(null), String.class);
+        assertEquals(HttpStatus.PERMANENT_REDIRECT, rsp.getStatusCode());
     }
 
     private List<ReceiptDTO> getReceiptForTest() {
