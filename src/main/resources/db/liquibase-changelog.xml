@@ -11,7 +11,10 @@
     <include relativeToChangelogFile="true" file="changelog/receipts_table.xml"/>
     <include relativeToChangelogFile="true" file="changelog/ingredients_table.xml"/>
     <include relativeToChangelogFile="true" file="changelog/steps_of_receipt_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/stocks_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/orders_table.xml"/>
 
+    <!--Default Data-->
     <include relativeToChangelogFile="true" file="changelog/data/users_default_data.xml"/>
     <include relativeToChangelogFile="true" file="changelog/data/countries_default_data.xml"/>
 

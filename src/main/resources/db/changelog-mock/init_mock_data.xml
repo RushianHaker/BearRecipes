@@ -22,4 +22,10 @@
     <changeSet id="insert mock data into step_info table" author="max" context="junit">
         <sqlFile path="data/step_info.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
     </changeSet>
+    <changeSet id="insert mock data into stock_info table" author="max" context="junit">
+        <sqlFile path="data/stock_info.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+    <changeSet id="insert mock data into order_info table" author="max" context="junit">
+        <sqlFile path="data/order_info.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
 </databaseChangeLog>
