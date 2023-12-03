@@ -5,6 +5,11 @@ server:
     path: /error
   port: 8080
 
+springdoc:
+  show-login-endpoint: true
+  swagger-ui:
+    path: /swagger-ui.html
+
 spring:
   profiles:
     active: dev
