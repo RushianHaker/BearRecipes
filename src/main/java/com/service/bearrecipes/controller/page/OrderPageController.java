@@ -18,10 +18,10 @@ public class OrderPageController {
         return "orderlist";
     }
 
-    @GetMapping({"/order/addorder"})
-    public String addOrderPage(Model model) {
+    @GetMapping({"/order/createorder"})
+    public String createOrderPage(Model model) {
         model.addAttribute("stocks", stockService.findAll());
-        return "addorder";
+        return "createorder";
     }
 
 }

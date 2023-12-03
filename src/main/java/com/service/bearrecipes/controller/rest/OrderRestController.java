@@ -26,7 +26,7 @@ public class OrderRestController {
     }
 
     @PostMapping("/api/order")
-    public Order addOrder(@RequestBody @NotNull Order order) {
+    public Order createOrder(@RequestBody @NotNull Order order) {
         return orderService.saveUserOrder(order);
     }
 }
