@@ -65,14 +65,14 @@
 </div>
 
 <div class="row">
-    <button><a th:href="@{/ingredient/addingredient/1}" href="addingredient.html">Добавить ингредиент</a></button>
+    <button><a th:href="@{/ingredient/addingredient/{receiptId}(receiptId = ${receipt.getId()})}" href="addingredient.html">Добавить ингредиент</a></button>
 
     <div class="form-group blu-margin">
         <label>Ингредиенты:</label>
         <span class="form-control" th:name="ingredient.id" id="ingredientId">
            <option th:each="ingredient : ${receipt.ingredients}" th:value="${ingredient.id}"
                    th:text="'- ' + ${ingredient.ingredientName} + ', (вес: ' + ${ingredient.weight} + ' грамм), ' + 'цена: ' + ${ingredient.price} + 'р.'">
-               <button><a th:href="@{/ingredient/deleteingredient/${ingredient.id}}" href="deleteingredient.html">Удалить ингредиент</a></button>
+               <button><a th:href="@{/ingredient/deleteingredient/{ingredientId}(ingredientId = ${ingredient.getId()})}" href="deleteingredient.html">Удалить ингредиент</a></button>
            </option>
         </span>
     </div>
@@ -80,14 +80,14 @@
 <button><a th:href="@{/order/createorder}" href="createorder.html">Заказать набор ингредиентов</a></button>
 
 <div class="row">
-    <button><a th:href="@{/stepinfo/addstep/${receipt.id}}" href="addstep.html">Добавить шаг</a></button>
+    <button><a th:href="@{/stepinfo/addstep/{receiptId}(receiptId = ${receipt.getId()})}" href="addstep.html">Добавить шаг</a></button>
 
     <div class="form-group blu-margin">
         <label>Шаги приготовления:</label>
         <span class="form-control" th:name="step.id" id="stepId">
            <option th:each="step : ${receipt.steps}" th:value="${step.id}"
                    th:text="'- ' + ${step.step}">
-                <button><a th:href="@{/stepinfo/deletestep/${step.id}}" href="deletestep.html">Удалить шаг</a></button>
+                <button><a th:href="@{/stepinfo/deletestep/{stepInfoId}(stepInfoId = ${step.getId()})}" href="deletestep.html">Удалить шаг</a></button>
            </option>
         </span>
     </div>
