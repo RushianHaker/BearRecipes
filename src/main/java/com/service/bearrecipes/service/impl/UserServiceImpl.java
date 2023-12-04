@@ -35,6 +35,10 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("This user are present !");
         }
 
+        if (user.getRole() == null || user.getRole().isEmpty()) {
+            user.setRole("USER");
+        }
+
         userRepository.save(user);
     }
 
