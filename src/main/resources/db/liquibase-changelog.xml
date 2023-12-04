@@ -17,6 +17,7 @@
     <!--Default Data-->
     <include relativeToChangelogFile="true" file="changelog/data/users_default_data.xml"/>
     <include relativeToChangelogFile="true" file="changelog/data/countries_default_data.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/data/stocks_default_data.xml"/>
 
     <!--Profile Junit-->
     <include relativeToChangelogFile="true" file="changelog-mock/changelog-test.xml"/>
