@@ -4,8 +4,17 @@
     <meta charset="UTF-8"/>
     <title>BearRecipes</title>
     <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        button {
+            padding: 30px;
+            background-color: aliceblue;
+        }
+
         .titleMainPage {
-            padding: 150px;
+            padding: 30px;
             position: relative;
             margin-top: auto;
         }
@@ -13,17 +22,45 @@
         .content {
             padding: 30px;
         }
+
+        .bear-emoji {
+            font-size: 200px;
+        }
+
+        .p-bear-emoji {
+            margin: auto auto auto 40px;
+        }
     </style>
 </head>
 
 <body>
 <div>
     <div class="titleMainPage">
-        <h1 class="helloText"> Добро пожаловать на Bear Recipes ! </h1>
+        <h1 class="helloText">Добро пожаловать на Bear Recipes !</h1>
     </div>
+
+    <div class="bear-emoji">
+        <p class="p-bear-emoji">🐻</p>
+    </div>
+
     <div class="content">
-        <h3> See recipes -> <a th:href="@{receipt}" href="receiptlist.html">Enter</a></h3>
+        <h3>-> <a th:href="@{receipt}" href="receiptlist.html">Посмотреть список рецептов</a></h3>
     </div>
+
+    <div class="content">
+        <button>
+            <thead>
+            <a th:href="@{/user/registration}" href="registration.html">Зарегистрироваться</a>
+            </thead>
+        </button>
+
+        <button>
+            <thead>
+            <a th:href="@{/login}">Войти</a>
+            </thead>
+        </button>
+    </div>
+
 </div>
 </body>
 </html>
