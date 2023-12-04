@@ -24,6 +24,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         request.requestMatchers(
                                         "/",
                                         "/user/registration",
+                                        "/api/user/registration",
                                         "/error").permitAll()
                                 .requestMatchers(
                                         "/logout",
