@@ -42,6 +42,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                         "/stepinfo/addstep/{receiptId}",
                                         "/stepinfo/deletestep/{stepInfoId}").hasAnyRole("ADMIN", "DEV")
                                 .requestMatchers(
+                                        "/actuator",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").hasRole("DEV")
