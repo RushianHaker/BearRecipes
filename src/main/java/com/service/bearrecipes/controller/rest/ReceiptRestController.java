@@ -26,7 +26,7 @@ public class ReceiptRestController {
         return receiptService.findById(id);
     }
 
-    @GetMapping({"/api/receipt/{name}"})
+    @GetMapping({"/api/receipt/name/{name}"})
     public ReceiptDTO infoPageReceiptByName(@PathVariable("name") @NotNull String name) {
         return receiptService.findByName(name);
     }
