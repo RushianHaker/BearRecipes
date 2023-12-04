@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8"/>
-    <title>Info receipt</title>
+    <title>Карточка</title>
     <style type="text/css">
         body {
-            background-color: #ffffff;
+            background-color: antiquewhite;
             padding: 50px;
         }
 
@@ -14,8 +14,14 @@
             width: 100px;
         }
 
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
         input:read-only {
-            background: rgba(128, 126, 126, 0.32);
+            background: aliceblue;
         }
 
         .row {
@@ -25,49 +31,70 @@
 </head>
 <body>
 
-<h1>Receipt Info:</h1>
+<h1>Карточка рецепта:</h1>
 
 <div class="row">
-    <label for="id-input">ID:</label>
-    <input id="id-input" name="id" type="text" readonly="readonly" th:value="${book.id}"/>
+    <label for="name-input">Название:</label>
+    <input id="name-input" name="name" type="text" readonly="readonly" th:value="${receipt.name}"/>
 </div>
 
 <div class="row">
-    <label for="name-input">Name:</label>
-    <input id="name-input" name="name" type="text" readonly="readonly" th:value="${book.name}"/>
+    <label for="plaintText-input">Описание:</label>
+    <input id="plaintText-input" name="plaintText" type="text" readonly="readonly" th:value="${receipt.plaintText}"/>
 </div>
 
 <div class="row">
-    <label for="year-input">Year:</label>
-    <input id="year-input" name="year" type="text" readonly="readonly" th:value="${book.year}"/>
+    <label for="complexity-input">Сложность:</label>
+    <input id="complexity-input" name="complexity" type="number" readonly="readonly" th:value="${receipt.complexity}"/>
 </div>
 
 <div class="row">
-    <label for="authname-input">Author name:</label>
-    <input id="authname-input" name="authorName" type="text" readonly="readonly" th:value="${book.author.name}"/>
+    <label for="authname-input">Имя Автора:</label>
+    <input id="authname-input" name="authorName" type="text" readonly="readonly" th:value="${receipt.author.name}"/>
 </div>
 
 <div class="row">
-    <label for="authyear-input">Author year:</label>
-    <input id="authyear-input" name="authorYear" type="text" readonly="readonly" th:value="${book.author.year}"/>
+    <label for="authlastname-input">Фамилия Автора:</label>
+    <input id="authlastname-input" name="authorLastName" type="text" readonly="readonly"
+           th:value="${receipt.author.lastName}"/>
 </div>
 
 <div class="row">
-    <label for="genre-input">Genre:</label>
-    <input id="genre-input" name="genreName" type="text" readonly="readonly" th:value="${book.genre.name}"/>
+    <label for="country-input">Страна:</label>
+    <input id="country-input" name="countryName" type="text" readonly="readonly" th:value="${receipt.country.name}"/>
 </div>
 
 <div class="row">
+    <button><a th:href="@{/ingredient/addingredient/${receipt.id}}" href="addingredient.html">Добавить ингредиент</a></button>
+
     <div class="form-group blu-margin">
-        <label>Comments:</label>
-        <span class="form-control" th:name="comment.id" id="commentId">
-           <option th:each="comment : ${book.comments}" th:value="${comment.id}" th:text="'- ' + ${comment.commentText}"/>
+        <label>Ингредиенты:</label>
+        <span class="form-control" th:name="ingredient.id" id="ingredientId">
+           <option th:each="ingredient : ${receipt.ingredients}" th:value="${ingredient.id}"
+                   th:text="'- ' + ${ingredient.ingredientName} + ', (вес: ' + ${ingredient.weight} + ' грамм), ' + 'цена: ' + ${ingredient.price} + 'р.'">
+               <button><a th:href="@{/ingredient/deleteingredient/${ingredient.id}}" href="deleteingredient.html">Удалить ингредиент</a></button>
+           </option>
+        </span>
+    </div>
+</div>
+<button><a th:href="@{/order/createorder}" href="createorder.html">Заказать набор ингредиентов</a></button>
+
+<div class="row">
+    <button><a th:href="@{/stepinfo/addstep/${receipt.id}}" href="addstep.html">Добавить шаг</a></button>
+
+    <div class="form-group blu-margin">
+        <label>Шаги приготовления:</label>
+        <span class="form-control" th:name="step.id" id="stepId">
+           <option th:each="step : ${receipt.steps}" th:value="${step.id}"
+                   th:text="'- ' + ${step.step}">
+                <button><a th:href="@{/stepinfo/deletestep/${step.id}}" href="deletestep.html">Удалить шаг</a></button>
+           </option>
         </span>
     </div>
 </div>
 
 <div class="row">
-    <button><a th:href="@{/book}" href="booklist.html">Back</a></button>
+    <button><a th:href="@{/receipt}" href="receiptlist.html">На главную</a></button>
 </div>
 
 </body>

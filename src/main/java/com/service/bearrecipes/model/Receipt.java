@@ -30,7 +30,7 @@ public class Receipt {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "title_image", nullable = false)
+    @Column(name = "title_image")
     private byte[] titleImage;
 
     @Column(name = "plain_text", nullable = false)

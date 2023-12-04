@@ -47,8 +47,8 @@ public class OrderServiceImpl implements OrderService {
         var user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new OrderServiceException("Can't find user for order: №" + order.getNumber()));
 
-        var stock = stockRepository.findById(order.getStock().getId())
-                .orElseThrow(() -> new OrderServiceException("Can't find stock with id: " + order.getStock().getId()));
+        var stock = stockRepository.findByStockAddressCity(order.getStock().getStockAddressCity())
+                .orElseThrow(() -> new OrderServiceException("Can't find stock with address city: " + order.getStock().getStockAddressCity()));
 
         order.setUser(user);
         order.setStock(stock);

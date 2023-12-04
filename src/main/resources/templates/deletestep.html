@@ -33,35 +33,29 @@
 
 <form id="delete-form">
     <input type="hidden" name="_method" value="delete"/>
-    <h1>Удаление карточки рецепта:</h1>
+    <h1>Удаление карточки шага:</h1>
 
     <div class="row">
         <label for="id-input">ID:</label>
-        <input id="id-input" name="id" type="text" readonly="readonly" th:value="${receipt.id}"/>
+        <input id="id-input" name="id" type="text" readonly="readonly" th:value="${stepinfo.id}"/>
     </div>
 
     <div class="row">
-        <label for="name-input">Название:</label>
-        <input id="name-input" name="name" type="text" readonly="readonly" th:value="${receipt.name}"/>
+        <label for="step-input">Описание шага:</label>
+        <input id="step-input" name="step" type="text" readonly="readonly" th:value="${stepinfo.step}"/>
     </div>
 
     <div class="row">
-        <label for="plaintText-input">Описание:</label>
-        <input id="plaintText-input" name="plaintText" type="text" readonly="readonly" th:value="${receipt.plaintText}"/>
-    </div>
-
-
-    <div class="row">
-        <button type="button" th:attr="onclick=|deleteReceipt(${receiptId})|">Удалить</button>
+        <button type="button" th:attr="onclick=|deleteStepInfo(${stepInfoId})|">Удалить</button>
 
         <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
     </div>
 </form>
 
 <script>
-    function deleteReceipt(receiptId) {
-        console.log("exec deleteReceipt with param: receiptId=" + JSON.stringify(receiptId));
-        fetch("/api/receipt/" + receiptId, {
+    function deleteStepInfo(stepInfoId) {
+        console.log("exec deleteStepInfo with param: stepInfoId=" + JSON.stringify(stepInfoId));
+        fetch("/api/step/" + stepInfoId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

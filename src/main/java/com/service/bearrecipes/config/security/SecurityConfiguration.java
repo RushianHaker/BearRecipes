@@ -27,6 +27,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                         "/error").permitAll()
                                 .requestMatchers(
                                         "/logout",
+                                        "/approvepurchases",
                                         "/receipt",
                                         "/receipt/inforeceipt/{receiptId}",
                                         "/order",

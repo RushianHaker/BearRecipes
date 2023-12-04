@@ -7,12 +7,12 @@
            CREATE TABLE receipts
            (
                id          bigserial    NOT NULL,
-               name   varchar(255) NOT NULL,
+               name        varchar(255) NOT NULL,
                author_id   int8 NULL,
                country_id  int8 NULL,
                complexity  int8         NOT NULL,
                plain_text  varchar(255) NOT NULL,
-               title_image bytea        NOT NULL,
+               title_image bytea NULL,
                CONSTRAINT receipts_pkey PRIMARY KEY (id),
                CONSTRAINT fk_receipt_of_author FOREIGN KEY (author_id) REFERENCES authors (id),
                CONSTRAINT fk_receipt_from_country FOREIGN KEY (country_id) REFERENCES countries (id)

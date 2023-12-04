@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Edit receipt</title>
+    <title>Изменение</title>
     <style type="text/css">
         body {
-            background-color: #ffffff;
-            padding: 50px;
+            background-color: antiquewhite;
+            padding: 30px;
         }
 
         label {
@@ -14,94 +14,98 @@
             width: 100px;
         }
 
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
         .row {
             margin-top: 10px;
         }
 
         input:read-only {
-            background: rgba(128, 126, 126, 0.32);
+            background: burlywood;
         }
     </style>
 </head>
 <body>
 
 <form id="edit-form">
-    <h1>Edit receipt Info:</h1>
+    <h1>Изменение карточки рецепта:</h1>
 
     <div class="row">
         <label for="id-input">ID:</label>
-        <input id="id-input" name="bookId" type="text" readonly="readonly" th:value="${book.id}"/>
+        <input id="id-input" name="receiptId" type="text" readonly="readonly" th:value="${receipt.id}"/>
     </div>
 
     <div class="row">
-        <label for="name-input">Name:</label>
-        <input id="name-input" name="bookName" type="text" th:value="${book.name}"/>
+        <label for="plaintText-input">Описание:</label>
+        <input id="plaintText-input" name="plaintText" type="text" th:value="${receipt.plaintText}"/>
     </div>
 
     <div class="row">
-        <label for="year-input">Year:</label>
-        <input id="year-input" name="bookYear" type="number" th:value="${book.year}"/>
+        <label for="complexity-input">Сложность:</label>
+        <input id="complexity-input" name="complexity" type="number" th:value="${receipt.complexity}"/>
     </div>
 
     <div class="row">
-        <label for="authname-input">Author name:</label>
-        <input id="authname-input" name="authorName" type="text" th:value="${book.author.name}"/>
+        <label for="authname-input">Имя Автора:</label>
+        <input id="authname-input" name="authorName" type="text" th:value="${receipt.author.name}"/>
     </div>
 
     <div class="row">
-        <label for="authyear-input">Author year:</label>
-        <input id="authyear-input" name="authorYear" type="number" th:value="${book.author.year}"/>
+        <label for="authlastname-input">Фамилия Автора:</label>
+        <input id="authlastname-input" name="authorLastName" type="text" th:value="${receipt.author.lastName}"/>
     </div>
 
     <div class="row">
-        <label for="genre-input">Genre:</label>
-        <input id="genre-input" name="genreName" type="text" th:value="${book.genre.name}"/>
+        <label for="country-input">Страна:</label>
+        <input id="country-input" name="countryName" type="text" th:value="${receipt.country.name}"/>
     </div>
 
 
     <div class="row">
-        <button type="button" th:attr="onclick=|updateBook(buildBookObj(), ${bookId})|">Save</button>
-    </div>
-    <div class="row">
-        <button><a th:href="@{/book}" href="booklist.html">Back</a></button>
-    </div>
+        <button type="button" th:attr="onclick=|updateReceipt(buildReceiptObj(), ${receiptId})|">Сохранить</button>
 
-    <!--        todo добавить изменение ингридиентов + изменение шагов приготовления (обращаться в скрипте на соответствующие АПИ для изменение в БД)-->
+        <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
+    </div>
 </form>
 
 <script>
-    function buildBookObj() {
-        console.log("exec buildBookObj");
+    function buildReceiptObj() {
+        console.log("exec buildReceiptObj");
 
         var author = new Object();
         author.name = document.getElementById("authname-input").value;
-        author.year = document.getElementById("authyear-input").value;
+        author.lastName = document.getElementById("authlastname-input").value;
 
-        var genre = new Object();
-        genre.name = document.getElementById("genre-input").value;
+        var country = new Object();
+        country.name = document.getElementById("country-input").value;
 
-        var book = new Object();
-        book.name = document.getElementById("name-input").value;
-        book.year = document.getElementById("year-input").value;
-        book.author = author;
-        book.genre = genre;
+        var receipt = new Object();
+        receipt.name = document.getElementById("name-input").value;
+        receipt.plaintText = document.getElementById("plaintText-input").value;
+        receipt.complexity = document.getElementById("complexity-input").value;
+        receipt.author = author;
+        receipt.country = country;
 
-        console.log("exec buildBookObj result: " + JSON.stringify(book));
-        return book;
+        console.log("exec buildReceiptObj result: " + JSON.stringify(receipt));
+        return receipt;
     }
 </script>
 
 <script>
-    function updateBook(book, bookId) {
-        console.log("exec updateBook with param:" + JSON.stringify(book));
-        fetch("/api/book/" + bookId, {
+    function updateReceipt(receipt, receiptId) {
+        console.log("exec updateReceipt with param:" + JSON.stringify(receipt));
+        fetch("/api/receipt/" + receiptId, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(book)
-        }).then(() => location.href = "/book");
+            body: JSON.stringify(receipt)
+        }).then(() => location.href = "/receipt");
     };
 </script>
 

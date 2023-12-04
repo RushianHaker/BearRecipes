@@ -33,35 +33,40 @@
 
 <form id="delete-form">
     <input type="hidden" name="_method" value="delete"/>
-    <h1>Удаление карточки рецепта:</h1>
+    <h1>Удаление ингредиента:</h1>
 
     <div class="row">
         <label for="id-input">ID:</label>
-        <input id="id-input" name="id" type="text" readonly="readonly" th:value="${receipt.id}"/>
+        <input id="id-input" name="id" type="text" readonly="readonly" th:value="${ingredient.id}"/>
     </div>
 
     <div class="row">
         <label for="name-input">Название:</label>
-        <input id="name-input" name="name" type="text" readonly="readonly" th:value="${receipt.name}"/>
+        <input id="name-input" name="name" type="text" readonly="readonly" th:value="${ingredient.ingredientName}"/>
     </div>
 
     <div class="row">
-        <label for="plaintText-input">Описание:</label>
-        <input id="plaintText-input" name="plaintText" type="text" readonly="readonly" th:value="${receipt.plaintText}"/>
+        <label for="weight-input">Вес:</label>
+        <input id="weight-input" name="plaintText" type="text" readonly="readonly" th:value="${ingredient.weight}"/>
+    </div>
+
+    <div class="row">
+        <label for="price-input">Цена:</label>
+        <input id="price-input" name="plaintText" type="text" readonly="readonly" th:value="${ingredient.price}"/>
     </div>
 
 
     <div class="row">
-        <button type="button" th:attr="onclick=|deleteReceipt(${receiptId})|">Удалить</button>
+        <button type="button" th:attr="onclick=|deleteIngredient(${ingredientId})|">Удалить</button>
 
         <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
     </div>
 </form>
 
 <script>
-    function deleteReceipt(receiptId) {
-        console.log("exec deleteReceipt with param: receiptId=" + JSON.stringify(receiptId));
-        fetch("/api/receipt/" + receiptId, {
+    function deleteIngredient(ingredientId) {
+        console.log("exec deleteIngredient with param: ingredientId=" + JSON.stringify(ingredientId));
+        fetch("/api/ingredient/" + ingredientId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

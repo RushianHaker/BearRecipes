@@ -22,7 +22,7 @@ public class StepInfo {
     @Column(name = "step", nullable = false)
     private String step;
 
-    @Column(name = "step_image", nullable = false)
+    @Column(name = "step_image")
     private byte[] image;
 
     @ManyToOne(targetEntity = Receipt.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
