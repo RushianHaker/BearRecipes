@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Добавление</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        .titleMainPage {
+            padding: 30px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        input:read-only {
+            background: #000000;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="titleMainPage">
+    <form id="add-form">
+        <h1>Добавление карточки рецепта:</h1>
+
+        <div class="row">
+            <label for="name-input">Название:</label>
+            <input id="name-input" name="name" type="text"/>
+        </div>
+
+        <div class="row">
+            <label for="plaintText-input">Описание:</label>
+            <input id="plaintText-input" name="plaintText" type="text"/>
+        </div>
+
+        <div class="row">
+            <label for="complexity-input">Сложность:</label>
+            <input id="complexity-input" name="complexity" type="number"/>
+        </div>
+
+
+        <div class="row">
+        <span>
+            <b>Выберите Автора</b>
+        </span>
+        </div>
+        <div class="row">
+            <div class="form-group blu-margin">
+                <select class="form-control" th:name="authorName" id="authorName">
+                    <option th:each="author : ${authors}" th:value="${author.name}" th:text="${author.name}"></option>
+                </select>
+                <select class="form-control" th:name="authorLastName" id="authorLastName">
+                    <option th:each="author : ${authors}" th:value="${author.lastName}"
+                            th:text="${author.lastName}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+        <span>
+            <b>Если вы не нашли нужного автора, впишите нового</b>
+        </span>
+        </div>
+        <div class="row">
+            <label for="authname-input">Имя Автора:</label>
+            <input id="authname-input" name="authname-input" type="text"/>
+        </div>
+        <div class="row">
+            <label for="authorlastName-input">Фамилия Автора:</label>
+            <input id="authorlastName-input" name="authorlastName-input" type="text"/>
+        </div>
+
+
+        <div class="row">
+        <span>
+            <b>Выберете страну</b>
+        </span>
+        </div>
+        <div class="row">
+            <div class="form-group blu-margin">
+                <select class="form-control" th:name="countryName" id="countryName">
+                    <option th:each="country : ${countries}" th:value="${country.name}"
+                            th:text="${country.name}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <button type="button" th:attr="onclick=|addReceipt(buildReceiptObj())|">Добавить</button>
+
+            <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function buildReceiptObj() {
+        console.log("exec buildReceiptObj");
+
+        var author = new Object();
+        var authorN = document.getElementById("authname-input").value;
+        var authorL = document.getElementById("authorlastName-input").value;
+
+        if (authorN.length > 0 && authorL.length > 0) {
+            author.name = authorN;
+            author.lastName = authorL;
+        } else {
+            author.name = document.getElementById("authorName").value;
+            author.lastName = document.getElementById("authorLastName").value;
+        }
+
+        var country = new Object();
+        country.name = document.getElementById("countryName").value
+
+
+        var receipt = new Object();
+        receipt.name = document.getElementById("name-input").value;
+        receipt.plaintText = document.getElementById("plaintText-input").value;
+        receipt.complexity = document.getElementById("complexity-input").value;
+        receipt.author = author;
+        receipt.country = country;
+
+        console.log("exec buildReceiptObj result: " + JSON.stringify(receipt));
+        return receipt;
+    }
+</script>
+
+<script>
+    function addReceipt(receipt) {
+        console.log("exec addReceipt with param:" + JSON.stringify(receipt));
+        fetch("/api/receipt", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(receipt)
+        }).then(() => location.href = "/receipt");
+    };
+</script>
+</body>
+</html>

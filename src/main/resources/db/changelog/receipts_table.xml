@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="create receipts table" author="max">
+       <sql>
+           CREATE TABLE receipts
+           (
+               id          bigserial    NOT NULL,
+               name        varchar(255) NOT NULL,
+               author_id   int8 NULL,
+               country_id  int8 NULL,
+               complexity  int8         NOT NULL,
+               plain_text  varchar(255) NOT NULL,
+               title_image bytea NULL,
+               CONSTRAINT receipts_pkey PRIMARY KEY (id),
+               CONSTRAINT fk_receipt_of_author FOREIGN KEY (author_id) REFERENCES authors (id),
+               CONSTRAINT fk_receipt_from_country FOREIGN KEY (country_id) REFERENCES countries (id)
+           );
+       </sql>
+    </changeSet>
+</databaseChangeLog>

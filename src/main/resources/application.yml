@@ -1,0 +1,56 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+  port: 8080
+
+springdoc:
+  show-login-endpoint: true
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    bearrecipes:
+      url: jdbc:postgresql://localhost:5432/bearrecipes
+      driverClassName: org.postgresql.Driver
+      username: postgres
+      password: postgres
+
+  liquibase:
+    bearrecipes:
+      change-log: db/liquibase-changelog.xml
+      liquibase-schema: public
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+logging:
+  level:
+    com.service.bearrecipes: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      enabled: true
+  health:
+    defaults:
+      enabled: true

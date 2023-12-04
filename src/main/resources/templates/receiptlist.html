@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список рецептов</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        .titleMainPage {
+            padding: 30px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .content, .content td {
+            border: 1px solid #000000;
+            padding: 30px;
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+
+<body>
+<div class="titleMainPage">
+    <h1>Рецепты:</h1>
+
+    <button>
+        <thead>
+        <a th:href="@{/logout}">Logout</a>
+        </thead>
+    </button>
+
+    <button>
+        <thead>
+        <a th:href="@{/user/profileuser}" href="profileuser.html" >Профиль пользователя</a>
+        </thead>
+    </button>
+
+    <button id="admin-add-receipt-button" name="admin-add-receipt-button"> <!--  todo показывается только для админа  -->
+        <thead>
+        <a th:href="@{/receipt/addreceipt}" href="addreceipt.html">Добавить рецепт</a>
+        </thead>
+    </button>
+
+    <table class="content">
+        <thead>
+        <tr>
+            <th id="admin-receipt-id">ID</th> <!--  todo показывается только для админа  -->
+            <th>Название</th>
+            <th>Страна</th>
+            <th>Имя Автора</th>
+            <th>Сложность приготовления (от 1 до 10)</th>
+        </tr>
+        </thead>
+
+        <tbody id="receiptTable"/>
+    </table>
+
+</div>
+
+<script>
+    console.log("exec api/receipt ")
+
+    const params = {
+        headers: {'Access-Control-Allow-Origin': '*'},
+        method: 'GET'
+    }
+
+    var dataRole = String();
+
+    fetch("/api/user", params)
+        .then(response => response.json())
+        .then(data => {
+            var adminAddReceiptButton = document.getElementById("admin-add-receipt-button");
+            var adminReceiptId = document.getElementById("admin-receipt-id");
+
+            dataRole = data.role;
+
+            if (dataRole === "DEV" || dataRole === "ADMIN") {
+                adminAddReceiptButton.style.display = "block";
+                adminReceiptId.style.display = "block";
+            } else {
+                adminAddReceiptButton.style.display = "none";
+                adminReceiptId.style.display = "none";
+            }
+        });
+
+
+    fetch("/api/receipt", params)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(receipt => {
+                var adminButtons =
+                    "<td> <a href=\"/receipt/editreceipt/" + receipt.id + "\"> <button type=\"button\">Изменить</button> </td>" +
+                    "<td> <a href=\"/receipt/delreceipt/" + receipt.id + "\"> <button type=\"button\">Удалить</button> </td>";
+
+                if (dataRole === "DEV" || dataRole === "ADMIN") {
+                    receiptTable.innerHTML +=
+                        "<tr>" +
+                        "<td>" + receipt.id + "</td>" +
+                        "<td>" + receipt.name + "</td>" +
+                        "<td>" + receipt.country.name + "</td>" +
+                        "<td>" + receipt.author.name + "</td>" +
+                        "<td>" + receipt.complexity + "</td>" +
+                        "<td> <a href=\"/receipt/inforeceipt/" + receipt.id + "\"> <button type=\"button\">Info</button> </td>" +
+                        adminButtons +
+                        "</tr>";
+                } else {
+                    receiptTable.innerHTML +=
+                        "<tr>" +
+                        "<td>" + receipt.id + "</td>" +
+                        "<td>" + receipt.name + "</td>" +
+                        "<td>" + receipt.country.name + "</td>" +
+                        "<td>" + receipt.author.name + "</td>" +
+                        "<td>" + receipt.complexity + "</td>" +
+                        "<td> <a href=\"/receipt/inforeceipt/" + receipt.id + "\"> <button type=\"button\">Info</button> </td>" +
+                        "</tr>";
+                }
+            })
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <include relativeToChangelogFile="true" file="changelog/users_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/countries_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/authors_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/receipts_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/ingredients_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/steps_of_receipt_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/stocks_table.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/orders_table.xml"/>
+
+    <!--Default Data-->
+    <include relativeToChangelogFile="true" file="changelog/data/users_default_data.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/data/countries_default_data.xml"/>
+    <include relativeToChangelogFile="true" file="changelog/data/stocks_default_data.xml"/>
+
+    <!--Profile Junit-->
+    <include relativeToChangelogFile="true" file="changelog-mock/changelog-test.xml"/>
+</databaseChangeLog>

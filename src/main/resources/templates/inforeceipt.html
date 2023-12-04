@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Карточка</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        input:read-only {
+            background: aliceblue;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Карточка рецепта:</h1>
+
+<div class="row">
+    <label for="name-input">Название:</label>
+    <input id="name-input" name="name" type="text" readonly="readonly" th:value="${receipt.name}"/>
+</div>
+
+<div class="row">
+    <label for="plaintText-input">Описание:</label>
+    <input id="plaintText-input" name="plaintText" type="text" readonly="readonly" th:value="${receipt.plaintText}"/>
+</div>
+
+<div class="row">
+    <label for="complexity-input">Сложность:</label>
+    <input id="complexity-input" name="complexity" type="number" readonly="readonly" th:value="${receipt.complexity}"/>
+</div>
+
+<div class="row">
+    <label for="authname-input">Имя Автора:</label>
+    <input id="authname-input" name="authorName" type="text" readonly="readonly" th:value="${receipt.author.name}"/>
+</div>
+
+<div class="row">
+    <label for="authlastname-input">Фамилия Автора:</label>
+    <input id="authlastname-input" name="authorLastName" type="text" readonly="readonly"
+           th:value="${receipt.author.lastName}"/>
+</div>
+
+<div class="row">
+    <label for="country-input">Страна:</label>
+    <input id="country-input" name="countryName" type="text" readonly="readonly" th:value="${receipt.country.name}"/>
+</div>
+
+<div class="row">
+    <button><a th:href="@{/ingredient/addingredient/{receiptId}(receiptId = ${receipt.getId()})}" href="addingredient.html">Добавить ингредиент</a></button>
+
+    <div class="form-group blu-margin">
+        <label>Ингредиенты:</label>
+        <span class="form-control" th:name="ingredient.id" id="ingredientId">
+           <option th:each="ingredient : ${receipt.ingredients}" th:value="${ingredient.id}"
+                   th:text="'- ' + ${ingredient.ingredientName} + ', (вес: ' + ${ingredient.weight} + ' грамм), ' + 'цена: ' + ${ingredient.price} + 'р.'">
+               <button><a th:href="@{/ingredient/deleteingredient/{ingredientId}(ingredientId = ${ingredient.getId()})}" href="deleteingredient.html">Удалить ингредиент</a></button>
+           </option>
+        </span>
+    </div>
+</div>
+<button><a th:href="@{/order/createorder}" href="createorder.html">Заказать набор ингредиентов</a></button>
+
+<div class="row">
+    <button><a th:href="@{/stepinfo/addstep/{receiptId}(receiptId = ${receipt.getId()})}" href="addstep.html">Добавить шаг</a></button>
+
+    <div class="form-group blu-margin">
+        <label>Шаги приготовления:</label>
+        <span class="form-control" th:name="step.id" id="stepId">
+           <option th:each="step : ${receipt.steps}" th:value="${step.id}"
+                   th:text="'- ' + ${step.step}">
+                <button><a th:href="@{/stepinfo/deletestep/{stepInfoId}(stepInfoId = ${step.getId()})}" href="deletestep.html">Удалить шаг</a></button>
+           </option>
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <button><a th:href="@{/receipt}" href="receiptlist.html">На главную</a></button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>BearRecipes</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        .customButton {
+            margin: 20px auto auto;
+            padding: 20px;
+            background-color: aliceblue;
+        }
+
+        .titlePage {
+            padding: 30px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .content {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <div class="titlePage">
+        <h1 class="regText">Регистрация на Bear Recipes ! </h1>
+    </div>
+
+    <div class="content">
+        <form id="add-form">
+            <input id="username" name="username" type="text" placeholder="Логин">
+            <input id="password" name="password" type="password" placeholder="Пароль">
+        </form>
+
+        <button class="customButton" type="button" th:attr="onclick=|addUser(buildUserObj())|">Готово</button>
+
+        <button class="customButton"><a th:href="@{/}" href="main.html">Назад</a></button>
+    </div>
+</div>
+
+<script>
+    function buildUserObj() {
+        console.log("exec buildUserObj");
+
+        var user = new Object();
+        user.username = document.getElementById("username").value;
+        user.password = document.getElementById("password").value;
+
+        console.log("exec buildUserObj result: " + JSON.stringify(user));
+        return user;
+    }
+</script>
+
+<script>
+    function addUser(user) {
+        console.log("exec addUser with param:" + JSON.stringify(user));
+        fetch("/api/user/registration", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }).then(() => location.href = "/login");
+    };
+</script>
+</body>
+</html>
