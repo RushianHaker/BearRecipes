@@ -6,12 +6,14 @@ import com.service.bearrecipes.dao.UserRepository;
 import com.service.bearrecipes.exception.OrderServiceException;
 import com.service.bearrecipes.model.Order;
 import com.service.bearrecipes.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -52,6 +54,8 @@ public class OrderServiceImpl implements OrderService {
 
         order.setUser(user);
         order.setStock(stock);
+
+        log.info("E-mail with order №" + order.getNumber() + " was send on stock address!");
 
         return orderRepository.save(order);
     }
