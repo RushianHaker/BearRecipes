@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class StepInfoPageController {
     private final ReceiptService receiptService;
+
     private final StepInfoService stepInfoService;
 
     public StepInfoPageController(ReceiptService receiptService, StepInfoService stepInfoService) {

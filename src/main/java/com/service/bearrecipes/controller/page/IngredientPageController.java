@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class IngredientPageController {
     private final ReceiptService receiptService;
+
     private final IngredientService ingredientService;
 
     public IngredientPageController(ReceiptService receiptService, IngredientService ingredientService) {

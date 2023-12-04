@@ -27,6 +27,7 @@ public class StepInfoDTO {
     }
 
     public static StepInfoDTO toDto(StepInfo stepInfo) {
-        return new StepInfoDTO(stepInfo.getId(), stepInfo.getStep(), stepInfo.getImage(), ReceiptDTO.toDto(stepInfo.getReceipt()));
+        return new StepInfoDTO(stepInfo.getId(), stepInfo.getStep(), stepInfo.getImage(),
+                ReceiptDTO.toDto(stepInfo.getReceipt()));
     }
 }

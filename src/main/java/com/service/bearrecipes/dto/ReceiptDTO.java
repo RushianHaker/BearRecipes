@@ -37,8 +37,8 @@ public class ReceiptDTO {
     private List<StepInfo> steps;
 
 
-    public ReceiptDTO(String name, byte[] titleImage, String plaintText, Long complexity, Author author, Country country, List<Ingredient> ingredients,
-                      List<StepInfo> steps) {
+    public ReceiptDTO(String name, byte[] titleImage, String plaintText, Long complexity, Author author, Country country,
+                      List<Ingredient> ingredients, List<StepInfo> steps) {
         this.name = name;
         this.titleImage = titleImage;
         this.plaintText = plaintText;
@@ -49,7 +49,8 @@ public class ReceiptDTO {
         this.steps = steps;
     }
 
-    public ReceiptDTO(long id, String name, byte[] titleImage, String plaintText, Long complexity, Author author, Country country) {
+    public ReceiptDTO(long id, String name, byte[] titleImage, String plaintText, Long complexity, Author author,
+                      Country country) {
         this.id = id;
         this.titleImage = titleImage;
         this.name = name;
@@ -59,7 +60,8 @@ public class ReceiptDTO {
         this.country = country;
     }
 
-    public ReceiptDTO(String name, byte[] titleImage, String plaintText, Long complexity, Author author, Country country) {
+    public ReceiptDTO(String name, byte[] titleImage, String plaintText, Long complexity, Author author,
+                      Country country) {
         this.name = name;
         this.titleImage = titleImage;
         this.plaintText = plaintText;

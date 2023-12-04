@@ -22,7 +22,8 @@ public class CountryServiceImpl implements CountryService {
     @Override
     @Transactional(readOnly = true)
     public Country findByName(@NotNull String countryName) {
-        return countryRepository.findByName(countryName).orElseThrow(() -> new CountryServiceException("Country not found!"));
+        return countryRepository.findByName(countryName)
+                .orElseThrow(() -> new CountryServiceException("Country not found!"));
     }
 
     @Override

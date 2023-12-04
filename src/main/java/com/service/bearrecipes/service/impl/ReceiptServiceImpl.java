@@ -37,7 +37,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     @Transactional(readOnly = true)
     public ReceiptDTO findById(long receiptId) {
-        var receiptInfo = receiptRepository.findById(receiptId).orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
+        var receiptInfo = receiptRepository.findById(receiptId)
+                .orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
 
         List<Ingredient> ingredients = receiptInfo.getIngredients() == null ? new ArrayList<>() : receiptInfo.getIngredients().stream()
                 .filter(ingredient -> ingredient.getIngredientName() != null && !ingredient.getIngredientName().isEmpty())
@@ -47,15 +48,16 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .filter(step -> step.getStep() != null && !step.getStep().isEmpty())
                 .toList();
 
-        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getTitleImage(), receiptInfo.getPlaintText(),
-                receiptInfo.getComplexity(), receiptInfo.getAuthor(), receiptInfo.getCountry(),
-                ingredients, steps);
+        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getTitleImage(),
+                receiptInfo.getPlaintText(), receiptInfo.getComplexity(), receiptInfo.getAuthor(),
+                receiptInfo.getCountry(), ingredients, steps);
     }
 
     @Override
     @Transactional(readOnly = true)
     public ReceiptDTO findByName(@NotNull String receiptName) {
-        var receiptInfo = receiptRepository.findByName(receiptName).orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
+        var receiptInfo = receiptRepository.findByName(receiptName)
+                .orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
 
         List<Ingredient> ingredients = receiptInfo.getIngredients() == null ? new ArrayList<>() : receiptInfo.getIngredients().stream()
                 .filter(ingredient -> ingredient.getIngredientName() != null && !ingredient.getIngredientName().isEmpty())
@@ -65,9 +67,9 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .filter(step -> step.getStep() != null && !step.getStep().isEmpty())
                 .toList();
 
-        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getTitleImage(), receiptInfo.getPlaintText(),
-                receiptInfo.getComplexity(), receiptInfo.getAuthor(), receiptInfo.getCountry(),
-                ingredients, steps);
+        return new ReceiptDTO(receiptInfo.getId(), receiptInfo.getName(), receiptInfo.getTitleImage(),
+                receiptInfo.getPlaintText(), receiptInfo.getComplexity(), receiptInfo.getAuthor(),
+                receiptInfo.getCountry(), ingredients, steps);
     }
 
     @Override
@@ -90,14 +92,16 @@ public class ReceiptServiceImpl implements ReceiptService {
         }
 
         var receiptCountryFromDB = countryRepository.findByName(receiptCountry.getName())
-                .orElseThrow(() -> new ReceiptServiceException("Cant find receipt country: " + receiptCountry.getName()));
+                .orElseThrow(() -> new ReceiptServiceException("Cant find receipt country: " +
+                        receiptCountry.getName()));
 
         var receiptForSave = new Receipt(receiptName, receiptDTO.getTitleImage(), receiptPlaintText, receiptComplexity,
                 findAuthorOrSaveAndReturn(receiptDTO.getAuthor()), receiptCountryFromDB);
 
         var receiptId = receiptDTO.getId();
         if (receiptId != 0) {
-            receiptRepository.findById(receiptId).orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
+            receiptRepository.findById(receiptId)
+                    .orElseThrow(() -> new ReceiptServiceException("Receipt not found!"));
             receiptForSave.setId(receiptId);
         }
 

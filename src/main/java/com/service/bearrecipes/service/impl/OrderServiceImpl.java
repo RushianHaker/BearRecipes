@@ -18,11 +18,13 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+
     private final StockRepository stockRepository;
 
     private final UserRepository userRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, StockRepository stockRepository, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, StockRepository stockRepository,
+                            UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.stockRepository = stockRepository;
         this.userRepository = userRepository;
@@ -50,7 +52,8 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new OrderServiceException("Can't find user for order: №" + order.getNumber()));
 
         var stock = stockRepository.findByStockAddressCity(order.getStock().getStockAddressCity())
-                .orElseThrow(() -> new OrderServiceException("Can't find stock with address city: " + order.getStock().getStockAddressCity()));
+                .orElseThrow(() -> new OrderServiceException("Can't find stock with address city: " +
+                        order.getStock().getStockAddressCity()));
 
         order.setUser(user);
         order.setStock(stock);

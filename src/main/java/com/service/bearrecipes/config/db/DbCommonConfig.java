@@ -24,12 +24,14 @@ public class DbCommonConfig {
 
     @Bean("bearrecipesDataSource")
     @Primary
-    public DataSource bearrecipesDataSource(@Qualifier("bearrecipesDataSourceProperties") DataSourceProperties properties) {
+    public DataSource bearrecipesDataSource(
+            @Qualifier("bearrecipesDataSourceProperties") DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
 
     @NotNull
-    private static SpringLiquibase liquibaseConfigForProperties(@NotNull DataSource dataSource, @NotNull LiquibaseProperties properties) {
+    private static SpringLiquibase liquibaseConfigForProperties(@NotNull DataSource dataSource,
+                                                                @NotNull LiquibaseProperties properties) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog(properties.getChangeLog());

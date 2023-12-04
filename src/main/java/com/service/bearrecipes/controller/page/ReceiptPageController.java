@@ -17,7 +17,8 @@ public class ReceiptPageController {
 
     private final CountryService countryService;
 
-    public ReceiptPageController(ReceiptService receiptService, AuthorService authorService, CountryService countryService) {
+    public ReceiptPageController(ReceiptService receiptService, AuthorService authorService,
+                                 CountryService countryService) {
         this.receiptService = receiptService;
         this.authorService = authorService;
         this.countryService = countryService;
