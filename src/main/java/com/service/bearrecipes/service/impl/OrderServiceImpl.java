@@ -1,6 +1,7 @@
 package com.service.bearrecipes.service.impl;
 
 import com.service.bearrecipes.dao.OrderRepository;
+import com.service.bearrecipes.dao.StockRepository;
 import com.service.bearrecipes.dao.UserRepository;
 import com.service.bearrecipes.exception.OrderServiceException;
 import com.service.bearrecipes.model.Order;
@@ -15,11 +16,13 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final StockRepository stockRepository;
 
     private final UserRepository userRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, StockRepository stockRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
+        this.stockRepository = stockRepository;
         this.userRepository = userRepository;
     }
 
@@ -44,7 +47,11 @@ public class OrderServiceImpl implements OrderService {
         var user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new OrderServiceException("Can't find user for order: №" + order.getNumber()));
 
+        var stock = stockRepository.findById(order.getStock().getId())
+                .orElseThrow(() -> new OrderServiceException("Can't find stock with id: " + order.getStock().getId()));
+
         order.setUser(user);
+        order.setStock(stock);
 
         return orderRepository.save(order);
     }
