@@ -2,15 +2,14 @@ package com.service.bearrecipes.dao.impl;
 
 import com.service.bearrecipes.config.DbTestcontainersConfig;
 import com.service.bearrecipes.dao.ReceiptRepository;
-import com.service.bearrecipes.model.*;
+import com.service.bearrecipes.model.Author;
+import com.service.bearrecipes.model.Country;
+import com.service.bearrecipes.model.Receipt;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,7 +59,7 @@ class ReceiptRepositoryTest {
     @Test
     void save() {
         var receipt = new Receipt("testReceipt", new byte[0], "testReceipt", 111L,
-                new Author(1L, "TestAuthor", "TestAuthor", new Country(9999L, "Test Country")),
+                new Author(1L, "TestAuthor", "TestAuthor"),
                 new Country(9999L, "Test Country"));
 
         var saveReceipt = receiptRepository.save(receipt);

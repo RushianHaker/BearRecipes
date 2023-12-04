@@ -141,7 +141,7 @@ public class ReceiptPageControllerTest {
 
     private List<ReceiptDTO> getReceiptForTest() {
         return List.of(new ReceiptDTO(1L, "testReceipt", new byte[0], "testReceipt", 111L,
-                new Author(1L, "testAuthor", "testAuthor", new Country(1L, "testCountry")),
+                new Author(1L, "testAuthor", "testAuthor"),
                 new Country(1L, "testCountry"), List.of(new Ingredient(1L, "testIngredient",
                 BigDecimal.valueOf(111), BigDecimal.valueOf(111), new Receipt(1L))),
                 List.of(new StepInfo(1L, "testStepInfo", new byte[0], new Receipt(1L)))));
@@ -149,7 +149,7 @@ public class ReceiptPageControllerTest {
 
     private ReceiptDTO getReceiptDTOsForTest() {
         return new ReceiptDTO(1L, "testReceipt", new byte[0], "testReceipt", 111L,
-                new Author(1L, "testAuthor", "testAuthor", new Country(1L, "testCountry")),
+                new Author(1L, "testAuthor", "testAuthor"),
                 new Country(1L, "testCountry"), List.of(new Ingredient(1L, "testIngredient",
                 BigDecimal.valueOf(111), BigDecimal.valueOf(111), new Receipt(1L))),
                 List.of(new StepInfo(1L, "testStepInfo", new byte[0], new Receipt(1L))));

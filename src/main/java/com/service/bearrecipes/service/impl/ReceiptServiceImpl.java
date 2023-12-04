@@ -87,7 +87,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         var receiptCountry = receiptDTO.getCountry();
 
         if ((receiptName == null || receiptName.isEmpty()) || (receiptPlaintText == null || receiptPlaintText.isEmpty())
-                || receiptComplexity == null || receiptCountry == null) {
+                || receiptComplexity == null || receiptCountry.getName() == null) {
             throw new ReceiptServiceException("Receipt name/plaintText/complexity/country can't be null or empty!");
         }
 
@@ -117,17 +117,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     private Author findAuthorOrSaveAndReturn(@NotNull Author authorFromReceiptDto) {
         var authorName = authorFromReceiptDto.getName();
         var authorLastName = authorFromReceiptDto.getLastName();
-        var authorCountry = authorFromReceiptDto.getCountry();
 
-        if ((authorName == null || authorName.isEmpty()) || (authorLastName == null || authorLastName.isEmpty())
-                || authorCountry == null) {
-            throw new ReceiptServiceException("Receipt authors name/lastName/country can't be null or empty!");
+        if ((authorName == null || authorName.isEmpty()) || (authorLastName == null || authorLastName.isEmpty())) {
+            throw new ReceiptServiceException("Receipt authors name/lastName can't be null or empty!");
         }
-
-        var authorCountryFromDB = countryRepository.findByName(authorCountry.getName())
-                .orElseThrow(() -> new ReceiptServiceException("Cant find authors country: " + authorCountry.getName()));
-
-        return authorRepository.findByNameAndLastNameAndCountry(authorName, authorLastName, authorCountryFromDB)
+        return authorRepository.findByNameAndLastName(authorName, authorLastName)
                 .orElse(authorRepository.save(authorFromReceiptDto));
     }
 }

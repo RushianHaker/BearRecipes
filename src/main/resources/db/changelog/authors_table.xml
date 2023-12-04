@@ -9,9 +9,7 @@
                id               bigserial    NOT NULL,
                authors_lastname varchar(255) NOT NULL,
                authors_name     varchar(255) NOT NULL,
-               country_id       int8 NULL,
-               CONSTRAINT authors_pkey PRIMARY KEY (id),
-               CONSTRAINT fk_author_from_country FOREIGN KEY (country_id) REFERENCES countries (id)
+               CONSTRAINT authors_pkey PRIMARY KEY (id)
            );
        </sql>
     </changeSet>

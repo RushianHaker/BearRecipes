@@ -1,2 +1,2 @@
-insert into authors (authors_lastname, authors_name, country_id)
-values ('TestAuthor', 'TestAuthor', 9999);
+insert into authors (authors_lastname, authors_name)
+values ('TestAuthor', 'TestAuthor');

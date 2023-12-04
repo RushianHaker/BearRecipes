@@ -40,8 +40,8 @@ class ReceiptServiceImplTest {
         when(countryRepository.findByName(country.getName())).thenReturn(Optional.of(country));
 
         var receiptDTO = new ReceiptDTO("testReceipt", new byte[0], "testReceipt", 111L,
-                new Author(2L, "testAuthor", "testAuthor", country),
-                country, List.of(new Ingredient(2L, "testIngredient", BigDecimal.valueOf(111),
+                new Author(2L, "testAuthor", "testAuthor"), country,
+                List.of(new Ingredient(2L, "testIngredient", BigDecimal.valueOf(111),
                 BigDecimal.valueOf(111), new Receipt(2L))), List.of(new StepInfo(2L,
                 "testStepInfo", new byte[0], new Receipt(2L))));
 

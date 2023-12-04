@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Setter
@@ -26,15 +24,9 @@ public class Author {
     @Column(name = "authors_lastname", nullable = false)
     private String lastName;
 
-    @Fetch(FetchMode.SELECT)
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-    private Country country;
 
-
-    public Author(String name, String lastName, Country country) {
+    public Author(String name, String lastName) {
         this.name = name;
         this.lastName = lastName;
-        this.country = country;
     }
 }

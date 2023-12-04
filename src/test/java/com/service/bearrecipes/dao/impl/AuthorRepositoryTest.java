@@ -1,17 +1,11 @@
 package com.service.bearrecipes.dao.impl;
 
 import com.service.bearrecipes.config.DbTestcontainersConfig;
-import com.service.bearrecipes.config.security.SecurityConfiguration;
 import com.service.bearrecipes.dao.AuthorRepository;
 import com.service.bearrecipes.model.Author;
-import com.service.bearrecipes.model.Country;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,8 +30,7 @@ class AuthorRepositoryTest {
 
     @Test
     void findByNameAndLastNameAndCountry() {
-        var author = authorRepository.findByNameAndLastNameAndCountry("TestAuthor", "TestAuthor",
-                new Country(9999L, "Test Country"));
+        var author = authorRepository.findByNameAndLastName("TestAuthor", "TestAuthor");
 
         assertNotNull(author);
 
@@ -49,7 +42,7 @@ class AuthorRepositoryTest {
 
     @Test
     void save() {
-        var saveAuthor = authorRepository.save(new Author("AAAAAA","AAAAAA", new Country(9999L, "Test Country")));
+        var saveAuthor = authorRepository.save(new Author("AAAAAA","AAAAAA"));
 
         var dbAuthor = authorRepository.findById(2L).orElseThrow();
 
