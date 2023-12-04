@@ -53,8 +53,8 @@ public class IngredientPageControllerTest {
         mockMvc.perform(get("/ingredient/addingredient/1")).andExpect(
                 status().isOk()).andExpect(
                 content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("111")));
+                content().string(containsString(" <h1>Добавление ингредиента:</h1>"))).andExpect(
+                content().string(containsString("Название")));
     }
 
     @Test

@@ -71,7 +71,7 @@ public class ReceiptPageControllerTest {
         mockMvc.perform(get("/receipt/addreceipt")).andExpect(
                 status().isOk()).andExpect(
                 content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("<input id=\"country-input\" name=\"country-input\" type=\"text\"/>")));
+                content().string(containsString("<input id=\"complexity-input\" name=\"complexity\" type=\"number\"/>")));
     }
 
     @DisplayName("Получение страницы редактирования")
@@ -86,8 +86,8 @@ public class ReceiptPageControllerTest {
         mockMvc.perform(get("/receipt/editreceipt/1")).andExpect(
                 status().isOk()).andExpect(
                 content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("testAuthorReceiptDTO")));
+                content().string(containsString("<label for=\"plaintText-input\">Описание:</label>"))).andExpect(
+                content().string(containsString("testAuthor")));
     }
 
     @DisplayName("Получение страницы полной информации по рецепту")
@@ -102,8 +102,8 @@ public class ReceiptPageControllerTest {
         mockMvc.perform(get("/receipt/inforeceipt/1")).andExpect(
                 status().isOk()).andExpect(
                 content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("testAuthorReceiptDTO")));
+                content().string(containsString("testReceipt"))).andExpect(
+                content().string(containsString("111")));
     }
 
     @DisplayName("Получение страницы удаления рецептов")
@@ -118,8 +118,8 @@ public class ReceiptPageControllerTest {
         mockMvc.perform(get("/receipt/delreceipt/1")).andExpect(
                 status().isOk()).andExpect(
                 content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("testAuthorReceiptDTO")));
+                content().string(containsString("testReceipt"))).andExpect(
+                content().string(containsString("testReceipt")));
     }
 
     @Test

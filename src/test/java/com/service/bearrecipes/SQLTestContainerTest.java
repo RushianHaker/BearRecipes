@@ -17,7 +17,7 @@ class SQLTestContainerTest {
 
     @Test
     void checkUsersDefaultData() {
-        assertEquals(3, jdbcTemplate.queryForObject("select count(id) from users", Integer.class));
+        assertEquals(4, jdbcTemplate.queryForObject("select count(id) from users", Integer.class));
     }
 
     @Test

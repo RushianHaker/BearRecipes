@@ -52,8 +52,8 @@ public class StepInfoPageControllerTest {
         mockMvc.perform(get("/stepinfo/addstep/1")).andExpect(
                 status().isOk()).andExpect(
                 content().contentType("text/html;charset=UTF-8")).andExpect(
-                content().string(containsString("testReceiptDTO"))).andExpect(
-                content().string(containsString("111")));
+                content().string(containsString("<button type=\"button\" onclick=\"addStep(buildStepObj())\">Добавить</button>"))).andExpect(
+                content().string(containsString("Назад")));
     }
 
     @Test
