@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="titleMainPage">
-    <h1>Проверка оплаты заказа: <span class="time-left"></span></h1>
+    <h1>Проверка оплаты заказа: <span class="time-left"></span>⏳</h1>
 </div>
 
 <script>
@@ -27,7 +27,7 @@
             output.textContent = --delay;
             if (!delay) {
                 clearInterval(timer);
-                location.href = "receiptlist.html";
+                location.href = "/receipt";
             }
         }, 1000);
     output.textContent = delay;

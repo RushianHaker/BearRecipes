@@ -43,7 +43,7 @@
             <div class="form-group blu-margin">
                 <label>Выберете город:</label>
                 <select class="form-control" th:name="stockCity" id="stockCity">
-                    <option th:each="stock : ${stocks}" th:value="${stock.id}"
+                    <option th:each="stock : ${stocks}" th:value="${stock.stockAddressCity}"
                             th:text="${stock.stockAddressCity}"></option>
                 </select>
             </div>
