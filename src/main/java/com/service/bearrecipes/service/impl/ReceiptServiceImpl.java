@@ -121,7 +121,8 @@ public class ReceiptServiceImpl implements ReceiptService {
         if ((authorName == null || authorName.isEmpty()) || (authorLastName == null || authorLastName.isEmpty())) {
             throw new ReceiptServiceException("Receipt authors name/lastName can't be null or empty!");
         }
-        return authorRepository.findByNameAndLastName(authorName, authorLastName)
-                .orElse(authorRepository.save(authorFromReceiptDto));
+
+        var authorFromDb = authorRepository.findByNameAndLastName(authorName, authorLastName);
+        return authorFromDb.orElseGet(() -> authorRepository.save(authorFromReceiptDto));
     }
 }

@@ -40,6 +40,11 @@
     </div>
 
     <div class="row">
+        <label for="name-input">Название:</label>
+        <input id="name-input" name="name" type="text" th:value="${receipt.name}"/>
+    </div>
+
+    <div class="row">
         <label for="plaintText-input">Описание:</label>
         <input id="plaintText-input" name="plaintText" type="text" th:value="${receipt.plaintText}"/>
     </div>
