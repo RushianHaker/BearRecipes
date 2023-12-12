@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="create authors table" author="max">
+       <sql>
+           CREATE TABLE authors
+           (
+               id               bigserial    NOT NULL,
+               authors_lastname varchar(255) NOT NULL,
+               authors_name     varchar(255) NOT NULL,
+               CONSTRAINT authors_pkey PRIMARY KEY (id)
+           );
+       </sql>
+    </changeSet>
+</databaseChangeLog>

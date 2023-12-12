@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="insert default data into users table" author="max">
+        <insert tableName="users">
+            <column name="username" value="user"/>
+            <column name="password" value="user"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="password" value="admin"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="dev"/>
+            <column name="password" value="dev"/>
+            <column name="role" value="DEV"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

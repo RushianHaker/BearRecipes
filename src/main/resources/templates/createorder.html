@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Заказ</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        .titleMainPage {
+            padding: 30px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        input:read-only {
+            background: rgba(128, 126, 126, 0.32);
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="titleMainPage">
+    <form id="add-form">
+        <h1>Регистрация заказа:</h1>
+
+        <div class="row">
+            <div class="form-group blu-margin">
+                <label>Выберете город:</label>
+                <select class="form-control" th:name="stockCity" id="stockCity">
+                    <option th:each="stock : ${stocks}" th:value="${stock.stockAddressCity}"
+                            th:text="${stock.stockAddressCity}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="number-input">Введите номер телефона:</label>
+            <input id="number-input" name="number" type="text"/>
+        </div>
+
+        <div class="row">
+            <label for="orderPrice-input">Итоговая сумма:</label>
+            <input id="orderPrice-input" name="orderPrice" type="text" readonly="readonly" value="1049"/>
+        </div>
+
+        <div class="row">
+            <label for="deliveryAddress-input">Адрес доставки:</label>
+            <input id="deliveryAddress-input" name="deliveryAddress" type="text"/>
+        </div>
+
+        <div class="row">
+            <button type="button" th:attr="onclick=|addOrder(buildOrderObj())|">Перейти к оплате</button>
+
+            <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function buildOrderObj() {
+        console.log("exec buildOrderObj");
+        var stock = new Object();
+        stock.stockAddressCity = document.getElementById("stockCity").value;
+
+        var order = new Object();
+        order.number = document.getElementById("number-input").value;
+        order.orderPrice = document.getElementById("orderPrice-input").value;
+        order.deliveryAddress = document.getElementById("deliveryAddress-input").value;
+
+        order.stock = stock;
+
+        console.log("exec buildOrderObj result: " + JSON.stringify(order));
+        return order;
+    }
+</script>
+
+<script>
+    function addOrder(order) {
+        console.log("exec addOrder with param:" + JSON.stringify(order));
+        fetch("/api/order", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        }).then(() => location.href = "/approvepurchases");
+    };
+</script>
+</body>
+</html>

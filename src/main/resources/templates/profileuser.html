@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Профиль</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        input:read-only {
+            background: aliceblue;
+        }
+
+        .row {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Профиль пользователя:</h1>
+
+<div class="row">
+    <label for="id-input">Id:</label>
+    <input id="id-input" name="id" type="text" readonly="readonly" th:value="${user.id}"/>
+</div>
+
+<div class="row">
+    <label for="name-input">Имя:</label>
+    <input id="name-input" name="name" type="text" readonly="readonly" th:value="${user.username}"/>
+</div>
+
+<div class="row">
+    <label for="role-input">Роль:</label>
+    <input id="role-input" name="role" type="text" readonly="readonly" th:value="${user.role}"/>
+</div>
+
+<div class="row">
+    <button><a th:href="@{/order}" href="orderlist.html">Мои заказы</a></button>
+
+    <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
+</div>
+
+</body>
+</html>

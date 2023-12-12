@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="create stocks table" author="max">
+        <sql>
+            create table stocks
+            (
+                id                 bigserial    NOT NULL,
+                stock_address_city varchar(255) not null,
+                stock_tel_number   varchar(50)  not null,
+                CONSTRAINT stocks_pkey PRIMARY KEY (id)
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

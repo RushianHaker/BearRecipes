@@ -1,0 +1,2 @@
+insert into orders (id, order_price, order_date, stock_id, user_id, delivery_address, order_number)
+values (1, 899, '2023-12-03 21:11:05.823', 9999, 1, 'Moscow city, pechkina street, home 42, flat 386', '8(800)555-35-35');

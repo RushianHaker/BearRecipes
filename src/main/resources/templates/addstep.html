@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Добавление</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        .titleMainPage {
+            padding: 30px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        input:read-only {
+            background: #000000;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="titleMainPage">
+    <form id="add-form">
+        <h1>Добавление шага приготовления:</h1>
+
+        <div class="row">
+            <label for="step-input">Описание шага:</label>
+            <input id="step-input" name="step" type="text"/>
+        </div>
+
+        <div class="row">
+            <button type="button" th:attr="onclick=|addStep(buildStepObj())|">Добавить</button>
+
+            <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
+        </div>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    function buildStepObj() {
+        console.log("exec buildStepObj");
+        var step = new Object();
+        step.step = document.getElementById("step-input").value;
+        step.receiptDTO = [[${receiptDTO}]];
+        console.log("exec buildStepObj result: " + JSON.stringify(step));
+        return step;
+    }
+</script>
+
+<script>
+    function addStep(step) {
+        console.log("exec addStep with param:" + JSON.stringify(step));
+        fetch("/api/step", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(step)
+        }).then(() => location.href = "/receipt");
+    };
+</script>
+</body>
+</html>

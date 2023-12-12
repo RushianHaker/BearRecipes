@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="insert default data into users table" author="max">
+        <insert tableName="stocks">
+            <column name="stock_address_city" value="Moscow"/>
+            <column name="stock_tel_number" value="8(800)555-35-35"/>
+        </insert>
+        <insert tableName="stocks">
+            <column name="stock_address_city" value="Balashiha"/>
+            <column name="stock_tel_number" value="8(400)222-22-22"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Добавление</title>
+    <style type="text/css">
+        body {
+            background-color: antiquewhite;
+        }
+
+        .titleMainPage {
+            padding: 30px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        button {
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: aliceblue;
+        }
+
+        input:read-only {
+            background: #000000;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="titleMainPage">
+    <form id="add-form">
+        <h1>Добавление ингредиента:</h1>
+
+        <div class="row">
+            <label for="name-input">Название:</label>
+            <input id="name-input" name="name" type="text"/>
+        </div>
+
+        <div class="row">
+            <label for="weight-input">Вес:</label>
+            <input id="weight-input" name="weight" type="number"/>
+        </div>
+
+        <div class="row">
+            <label for="price-input">Цена:</label>
+            <input id="price-input" name="price" type="number"/>
+        </div>
+
+        <div class="row">
+            <button type="button" th:attr="onclick=|addIngredient(buildIngredientObj())|">Добавить</button>
+
+            <button><a th:href="@{/receipt}" href="receiptlist.html">Назад</a></button>
+        </div>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    function buildIngredientObj() {
+        console.log("exec buildIngredientObj");
+        var ingredient = new Object();
+        ingredient.ingredientName = document.getElementById("name-input").value;
+        ingredient.weight = document.getElementById("weight-input").value;
+        ingredient.price = document.getElementById("price-input").value;
+        ingredient.receiptDTO = [[${receiptDTO}]];
+        console.log("exec buildIngredientObj result: " + JSON.stringify(ingredient));
+        return ingredient;
+    }
+</script>
+
+<script>
+    function addIngredient(ingredient) {
+        console.log("exec addIngredient with param:" + JSON.stringify(ingredient));
+        fetch("/api/ingredient", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ingredient)
+        }).then(() => location.href = "/receipt");
+    };
+</script>
+</body>
+</html>
